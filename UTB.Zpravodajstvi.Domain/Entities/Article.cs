@@ -5,9 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using UTB.Zpravodajstvi.Domain.Entities.Interfaces;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace UTB.Zpravodajstvi.Domain.Entities
 {
+    [Table(nameof(Article))]
     public class Article : Entity<int>
     {
         [Required]

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace UTB.Zpravodajstvi.Domain.Entities
 {
+    [Table(nameof(Category))]
     public class Category : Entity<int>
     {
         [Required]
