@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using UTB.Zpravodajstvi.Infrastructure.Database;
 
@@ -10,9 +11,11 @@ using UTB.Zpravodajstvi.Infrastructure.Database;
 namespace UTB.Zpravodajstvi.Infrastructure.Migrations
 {
     [DbContext(typeof(ZpravodajstviDbContext))]
-    partial class ZpravodajstviDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241214191209_mysql_1.1_fix_seeding")]
+    partial class mysql_11_fix_seeding
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
