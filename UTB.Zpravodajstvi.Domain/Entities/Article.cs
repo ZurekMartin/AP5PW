@@ -21,7 +21,7 @@ namespace UTB.Zpravodajstvi.Domain.Entities
         public int CategoryID { get; set; }
         public required Category Category { get; set; }
         public required ICollection<ArticleTag> ArticleTags { get; set; }
-        public int AuthorID { get; set; }
-        public required IUser<int> Author { get; set; }
+        // public int AuthorID { get; set; }
+        // public required IUser<int> Author { get; set; }
     }
 }
