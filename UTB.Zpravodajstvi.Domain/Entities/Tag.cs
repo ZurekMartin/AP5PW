@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UTB.Zpravodajstvi.Domain.Entities.Interfaces;
 
 namespace UTB.Zpravodajstvi.Domain.Entities
 {
-    public class Entity<TKey> : IEntity<TKey>
+    public class Tag : Entity<int>
     {
-        public required TKey Id { get; set; }
+        [Required]
+        [StringLength(50)]
+        public required string Name { get; set; }
     }
 }

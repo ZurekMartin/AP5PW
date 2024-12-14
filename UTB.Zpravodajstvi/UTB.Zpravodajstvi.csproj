@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.11">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\UTB.Zpravodajstvi.Application\UTB.Zpravodajstvi.Application.csproj" />
     <ProjectReference Include="..\UTB.Zpravodajstvi.Domain\UTB.Zpravodajstvi.Domain.csproj" />
     <ProjectReference Include="..\UTB.Zpravodajstvi.Infrastructure\UTB.Zpravodajstvi.Infrastructure.csproj" />

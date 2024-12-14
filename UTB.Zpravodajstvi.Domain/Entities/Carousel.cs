@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UTB.Zpravodajstvi.Domain.Entities.Interfaces;
 
 namespace UTB.Zpravodajstvi.Domain.Entities
 {
-    public class Entity<TKey> : IEntity<TKey>
+    public class Carousel : Entity<int>
     {
-        public required TKey Id { get; set; }
+        public required string ImageSrc { get; set; }
+        public required string ImageAlt { get; set; }
     }
 }
