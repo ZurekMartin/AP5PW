@@ -19,12 +19,7 @@ namespace UTB.Zpravodajstvi.Infrastructure.Database.Seeding
                 Title = "První článek",
                 Description = "Popis prvního článku.",
                 ImageSrc = "/img/img1.jpg",
-                CategoryID = 1,
-                ArticleTags = new List<ArticleTag>
-                {
-                    new ArticleTag { Id = 1, ArticleID = 1, TagID = 1 },
-                    new ArticleTag { Id = 2, ArticleID = 1, TagID = 2 }
-                }
+                CategoryID = 1
             });
             articles.Add(new Article
             {
@@ -32,12 +27,7 @@ namespace UTB.Zpravodajstvi.Infrastructure.Database.Seeding
                 Title = "Druhý článek",
                 Description = "Popis druhého článku.",
                 ImageSrc = "/img/img2.jpg",
-                CategoryID = 2,
-                ArticleTags = new List<ArticleTag>
-                {
-                    new ArticleTag { Id = 3, ArticleID = 1, TagID = 1 },
-                    new ArticleTag { Id = 4, ArticleID = 1, TagID = 2 }
-                }
+                CategoryID = 2
             });
 
             return articles;

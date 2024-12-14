@@ -30,6 +30,8 @@ namespace UTB.Zpravodajstvi.Infrastructure.Database
 
             ArticleInit productInit = new ArticleInit();
             modelBuilder.Entity<Article>().HasData(productInit.GetArticles());
+            ArticleTagInit articleTagInit = new ArticleTagInit();
+            modelBuilder.Entity<ArticleTag>().HasData(articleTagInit.GetArticleTags());
             CarouselInit carouselInit = new CarouselInit();
             modelBuilder.Entity<Carousel>().HasData(carouselInit.GetCarousels());
             CategoryInit categoryInit = new CategoryInit();

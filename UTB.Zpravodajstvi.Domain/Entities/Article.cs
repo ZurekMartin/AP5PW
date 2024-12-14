@@ -19,6 +19,5 @@ namespace UTB.Zpravodajstvi.Domain.Entities
         public string? ImageSrc { get; set; }
         [Required]
         public int CategoryID { get; set; }
-        public required ICollection<ArticleTag> ArticleTags { get; set; }
     }
 }
