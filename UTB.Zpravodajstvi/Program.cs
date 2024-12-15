@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using UTB.Zpravodajstvi.Infrastructure.Database;
+using UTB.Zpravodajstvi.Application.Abstraction;
+using UTB.Zpravodajstvi.Application.Implementation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +11,9 @@ builder.Services.AddControllersWithViews();
 string connectionString = builder.Configuration.GetConnectionString("MySQL");
 ServerVersion serverVersion = new MySqlServerVersion("8.0.40");
 builder.Services.AddDbContext<ZpravodajstviDbContext>(optionsBuilder => optionsBuilder.UseMySql(connectionString, serverVersion));
+
+//registrace služeb aplikaèní vrstvy
+builder.Services.AddScoped<IArticleAppService, ArticleAppService>();
 
 var app = builder.Build();
 
@@ -26,6 +31,10 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.MapControllerRoute(
+    name: "areas",
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
     name: "default",

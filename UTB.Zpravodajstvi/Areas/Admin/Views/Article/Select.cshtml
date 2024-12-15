@@ -1,0 +1,48 @@
+﻿@model IList<Article>
+@{
+    ViewData["Title"] = "Article Administration";
+}
+<h1>@ViewData["Title"]</h1>
+
+<a asp-action="Create">Create Article</a>
+
+@{
+    if (Model != null && Model.Count > 0)
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">@nameof(Article.Id)</th>
+                    <th scope="col">@nameof(Article.Title)</th>
+                    <th scope="col">@nameof(Article.Description)</th>
+                    <th scope="col">@nameof(Article.ImageSrc)</th>
+                    <th scope="col">@nameof(Article.CategoryID)</th>
+                    <th scope="col">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Count; ++i)
+                {
+                    Article article = Model[i];
+                    <tr>
+                        <th scope="row">@article.Id</th>
+                        <td>@article.Title</td>
+                        <td>@article.Description</td>
+                        <td>@article.ImageSrc</td>
+                        <td>@article.CategoryID</td>
+                        <td><a asp-action="Delete" asp-route-id="@article.Id" onclick="return ConfirmDelete();">Delete</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>Article table is empty!</p>
+    }
+}
+
+@section Scripts
+{
+    <script src="~/js/dialogs.js"></script>
+}

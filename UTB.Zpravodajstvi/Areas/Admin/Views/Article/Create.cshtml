@@ -1,0 +1,24 @@
+﻿@model Article
+@{
+    ViewData["Title"] = "Article - Create";
+}
+<h1>@ViewData["Title"]</h1>
+<form asp-action="Create" method="post">
+    <div class="mb-3">
+        <label class="form-label" asp-for="Title"></label>
+        <input class="form-control" asp-for="Title">
+    </div>
+    <div class="mb-3">
+        <label class="form-label" asp-for="Description"></label>
+        <input class="form-control" asp-for="Description">
+    </div>
+    <div class="mb-3">
+        <label class="form-label" asp-for="ImageSrc"></label>
+        <input class="form-control" asp-for="ImageSrc">
+    </div>
+    <div class="mb-3">
+        <label class="form-label" asp-for="CategoryID"></label>
+        <input class="form-control" asp-for="CategoryID">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
