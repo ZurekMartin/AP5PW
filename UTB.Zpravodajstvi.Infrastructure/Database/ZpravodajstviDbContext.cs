@@ -9,10 +9,12 @@ using UTB.Zpravodajstvi.Domain.Entities.Interfaces;
 using UTB.Zpravodajstvi.Domain.Entities;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using UTB.Zpravodajstvi.Infrastructure.Database.Seeding;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using UTB.Zpravodajstvi.Infrastructure.Identity;
 
 namespace UTB.Zpravodajstvi.Infrastructure.Database
 {
-    public class ZpravodajstviDbContext : DbContext
+    public class ZpravodajstviDbContext : IdentityDbContext<User, Role, int>
     {
         public DbSet<Article> Articles { get; set; }
         public DbSet<ArticleTag> ArticleTags { get; set; }
