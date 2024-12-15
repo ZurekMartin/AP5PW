@@ -12,9 +12,11 @@ namespace UTB.Zpravodajstvi.Application.Implementation
     public class ArticleAppService : IArticleAppService
     {
         ZpravodajstviDbContext _zpravodajstviDbContext;
-        public ArticleAppService(ZpravodajstviDbContext zpravodajstviDbContext)
+        IFileUploadService _fileUploadService;
+        public ArticleAppService(ZpravodajstviDbContext zpravodajstviDbContext, IFileUploadService fileUploadService)
         {
             _zpravodajstviDbContext = zpravodajstviDbContext;
+            _fileUploadService = fileUploadService;
         }
         public IList<Article> Select()
         {
@@ -22,6 +24,12 @@ namespace UTB.Zpravodajstvi.Application.Implementation
         }
         public void Create(Article article)
         {
+            if (article.Image != null)
+            {
+                string imageSrc = _fileUploadService.FileUpload(article.Image, Path.Combine("img", "products"));
+                article.ImageSrc = imageSrc;
+            }
+
             _zpravodajstviDbContext.Articles.Add(article);
             _zpravodajstviDbContext.SaveChanges();
         }

@@ -13,7 +13,7 @@ namespace UTB.Zpravodajstvi.Infrastructure.Identity.Enums
     public enum Roles
     {
         Admin,
-        Writter,
+        Writer,
         Reader
     }
 }
