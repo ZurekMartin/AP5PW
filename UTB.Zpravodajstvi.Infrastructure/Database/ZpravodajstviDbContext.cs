@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using UTB.Zpravodajstvi.Infrastructure.Database.Seeding;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using UTB.Zpravodajstvi.Infrastructure.Identity;
+using Microsoft.AspNetCore.Identity;
 
 namespace UTB.Zpravodajstvi.Infrastructure.Database
 {
@@ -40,6 +41,23 @@ namespace UTB.Zpravodajstvi.Infrastructure.Database
             modelBuilder.Entity<Category>().HasData(categoryInit.GetCategories());
             TagInit tagInit = new TagInit();
             modelBuilder.Entity<Tag>().HasData(tagInit.GetTags());
+
+            //Identity - User and Role initialization
+            //roles must be added first
+            RolesInit rolesInit = new RolesInit();
+            modelBuilder.Entity<Role>().HasData(rolesInit.GetRolesAMC());
+            //then, create users ..
+            UserInit userInit = new UserInit();
+            User admin = userInit.GetAdmin();
+            User writer = userInit.GetWriter();
+            //.. and add them to the table
+            modelBuilder.Entity<User>().HasData(admin, writer);
+            //and finally, connect the users with the roles
+            UserRolesInit userRolesInit = new UserRolesInit();
+            List<IdentityUserRole<int>> adminUserRoles = userRolesInit.GetRolesForAdmin();
+            List<IdentityUserRole<int>> writerUserRoles = userRolesInit.GetRolesForWriter();
+            modelBuilder.Entity<IdentityUserRole<int>>().HasData(adminUserRoles);
+            modelBuilder.Entity<IdentityUserRole<int>>().HasData(writerUserRoles);
         }
     }
 }
