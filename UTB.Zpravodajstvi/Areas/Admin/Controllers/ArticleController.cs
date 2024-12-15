@@ -28,8 +28,12 @@ namespace UTB.Zpravodajstvi.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Create(Article article)
         {
-            _articleAppService.Create(article);
-            return RedirectToAction(nameof(ArticleController.Select));
+            if (ModelState.IsValid)
+            {
+                _articleAppService.Create(article);
+                return RedirectToAction(nameof(ArticleController.Select));
+            }
+            return View(article);
         }
 
         public IActionResult Delete(int id)

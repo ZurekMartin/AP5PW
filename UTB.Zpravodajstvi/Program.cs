@@ -14,6 +14,8 @@ builder.Services.AddDbContext<ZpravodajstviDbContext>(optionsBuilder => optionsB
 
 //registrace služeb aplikaèní vrstvy
 builder.Services.AddScoped<IArticleAppService, ArticleAppService>();
+builder.Services.AddScoped<ICarouselAppService, CarouselAppService>();
+builder.Services.AddScoped<IHomeService, HomeService>();
 
 var app = builder.Build();
 
