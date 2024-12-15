@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using UTB.Zpravodajstvi.Domain.Entities.Interfaces;
 using System.ComponentModel.DataAnnotations.Schema;
+using UTB.Zpravodajstvi.Domain.Validations;
 
 namespace UTB.Zpravodajstvi.Domain.Entities
 {
@@ -15,6 +16,7 @@ namespace UTB.Zpravodajstvi.Domain.Entities
         [Required]
         [StringLength(70)]
         public string? Title { get; set; }
+        [FirstLetterCapitalizedCZ]
         public string? Description { get; set; }
         public string? ImageSrc { get; set; }
         [ForeignKey(nameof(CategoryID))]
