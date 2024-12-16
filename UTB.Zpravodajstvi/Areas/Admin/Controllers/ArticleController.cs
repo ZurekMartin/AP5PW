@@ -16,7 +16,6 @@ namespace UTB.Zpravodajstvi.Areas.Admin.Controllers
             _articleAppService = articleAppService;
         }
 
-        // GET: /<controller>/
         public IActionResult Select()
         {
             IList<Article> articles = _articleAppService.Select();
@@ -35,6 +34,34 @@ namespace UTB.Zpravodajstvi.Areas.Admin.Controllers
             {
                 _articleAppService.Create(article);
                 return RedirectToAction(nameof(ArticleController.Select));
+            }
+            return View(article);
+        }
+
+        [HttpGet]
+        public IActionResult Update(int id)
+        {
+            Article article = _articleAppService.GetById(id);
+            if (article == null)
+            {
+                return NotFound();
+            }
+            return View(article);
+        }
+        [HttpPost]
+        public IActionResult Update(Article article)
+        {
+            if (ModelState.IsValid)
+            {
+                bool updated = _articleAppService.Update(article);
+                if (updated)
+                {
+                    return RedirectToAction(nameof(Select));
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Failed to update the article.");
+                }
             }
             return View(article);
         }
