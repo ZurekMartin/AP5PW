@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using UTB.Zpravodajstvi.Application.Abstraction;
 using UTB.Zpravodajstvi.Domain.Entities;
+using UTB.Zpravodajstvi.Infrastructure.Identity.Enums;
 
 namespace UTB.Zpravodajstvi.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = nameof(Roles.Admin) + ", " + nameof(Roles.Writer))]
     public class ArticleController : Controller
     {
         IArticleAppService _articleAppService;

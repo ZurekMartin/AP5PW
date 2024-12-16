@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using UTB.Zpravodajstvi.Infrastructure.Database;
 
@@ -11,9 +12,11 @@ using UTB.Zpravodajstvi.Infrastructure.Database;
 namespace UTB.Zpravodajstvi.Infrastructure.Migrations
 {
     [DbContext(typeof(ZpravodajstviDbContext))]
-    partial class ZpravodajstviDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241215145323_mysql_1.2_identity")]
+    partial class mysql_12_identity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -104,33 +107,6 @@ namespace UTB.Zpravodajstvi.Infrastructure.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = 1,
-                            RoleId = 1
-                        },
-                        new
-                        {
-                            UserId = 1,
-                            RoleId = 2
-                        },
-                        new
-                        {
-                            UserId = 1,
-                            RoleId = 3
-                        },
-                        new
-                        {
-                            UserId = 2,
-                            RoleId = 2
-                        },
-                        new
-                        {
-                            UserId = 2,
-                            RoleId = 3
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
@@ -364,29 +340,6 @@ namespace UTB.Zpravodajstvi.Infrastructure.Migrations
                         .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ConcurrencyStamp = "9cf14c2c-19e7-40d6-b744-8917505c3106",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            ConcurrencyStamp = "be0efcde-9d0a-461d-8eb6-444b043d6660",
-                            Name = "Writer",
-                            NormalizedName = "WRITER"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            ConcurrencyStamp = "29dafca7-cd20-4cd9-a3dd-4779d7bac3ee",
-                            Name = "Reader",
-                            NormalizedName = "READER"
-                        });
                 });
 
             modelBuilder.Entity("UTB.Zpravodajstvi.Infrastructure.Identity.User", b =>
@@ -460,44 +413,6 @@ namespace UTB.Zpravodajstvi.Infrastructure.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "b09a83ae-cfd3-4ee7-97e6-fbcf0b0fe78c",
-                            Email = "admin@admin.cz",
-                            EmailConfirmed = true,
-                            FirstName = "Adminek",
-                            LastName = "Adminovy",
-                            LockoutEnabled = true,
-                            NormalizedEmail = "ADMIN@ADMIN.CZ",
-                            NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEM9O98Suoh2o2JOK1ZOJScgOfQ21odn/k6EYUpGWnrbevCaBFFXrNL7JZxHNczhh/w==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "SEJEPXC646ZBNCDYSM3H5FRK5RWP2TN6",
-                            TwoFactorEnabled = false,
-                            UserName = "admin"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "7a8d96fd-5918-441b-b800-cbafa99de97b",
-                            Email = "writer@writer.cz",
-                            EmailConfirmed = true,
-                            FirstName = "Writerek",
-                            LastName = "Writerovy",
-                            LockoutEnabled = true,
-                            NormalizedEmail = "WRITER@WRITER.CZ",
-                            NormalizedUserName = "WRITER",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOzeajp5etRMZn7TWj9lhDMJ2GSNTtljLWVIWivadWXNMz8hj6mZ9iDR+alfEUHEMQ==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "MAJXOSATJKOEM4YFF32Y5G2XPR5OFEL6",
-                            TwoFactorEnabled = false,
-                            UserName = "writer"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>

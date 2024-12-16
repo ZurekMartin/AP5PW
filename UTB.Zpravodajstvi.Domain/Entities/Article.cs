@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations;
 using UTB.Zpravodajstvi.Domain.Entities.Interfaces;
 using System.ComponentModel.DataAnnotations.Schema;
 using UTB.Zpravodajstvi.Domain.Validations;
+using Microsoft.AspNetCore.Http;
 
 namespace UTB.Zpravodajstvi.Domain.Entities
 {
@@ -19,6 +20,9 @@ namespace UTB.Zpravodajstvi.Domain.Entities
         [FirstLetterCapitalizedCZ]
         public string? Description { get; set; }
         public string? ImageSrc { get; set; }
+        [NotMapped]
+        [FileContent("image")]
+        public IFormFile? Image { get; set; }
         [ForeignKey(nameof(CategoryID))]
         public int CategoryID { get; set; }
     }
