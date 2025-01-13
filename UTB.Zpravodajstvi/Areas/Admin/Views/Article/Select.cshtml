@@ -1,48 +1,89 @@
 ﻿@model IList<Article>
 @{
-    ViewData["Title"] = "Article Administration";
+    ViewData["Title"] = "Správa článků";
 }
-<h1>@ViewData["Title"]</h1>
+<div class="container-fluid py-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card bg-light border-0 shadow-sm">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <h1 class="h3 mb-0">@ViewData["Title"]</h1>
+                        <p class="text-muted mb-0">Přehled všech publikovaných článků</p>
+                    </div>
+                    <a asp-action="Create" class="btn btn-primary">
+                        <i class="fas fa-plus-circle me-2"></i>Nový článek
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<a asp-action="Create">Create Article</a>
-
-@{
-    if (Model != null && Model.Count > 0)
+    @if (Model != null && Model.Count > 0)
     {
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">@nameof(Article.Id)</th>
-                    <th scope="col">@nameof(Article.Title)</th>
-                    <th scope="col">@nameof(Article.Description)</th>
-                    <th scope="col">@nameof(Article.ImageSrc)</th>
-                    <th scope="col">@nameof(Article.CategoryID)</th>
-                    <th scope="col">Update</th>
-                    <th scope="col">Delete</th>
-                </tr>
-            </thead>
-            <tbody>
-                @for (int i = 0; i < Model.Count; ++i)
-                {
-                    Article article = Model[i];
-                    <tr>
-                        <th scope="row">@article.Id</th>
-                        <td>@article.Title</td>
-                        <td>@article.Description</td>
-                        <td>@article.ImageSrc</td>
-                        <td>@article.CategoryID</td>
-                        <td><a asp-action="Update" asp-route-id="@article.Id">Update</a></td>
-                        <td><a asp-action="Delete" asp-route-id="@article.Id" onclick="return ConfirmDelete();">Delete</a></td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+        <div class="row">
+            @foreach (var article in Model)
+            {
+                <div class="col-12 col-md-6 col-xl-4 mb-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="position-relative">
+                            @if (!string.IsNullOrEmpty(article.ImageSrc))
+                            {
+                                <img src="@article.ImageSrc" class="card-img-top" alt="@article.Title" style="height: 200px; object-fit: cover;">
+                            }
+                            else
+                            {
+                                <div class="bg-light text-center py-5">
+                                    <i class="fas fa-image fa-3x text-muted"></i>
+                                </div>
+                            }
+                            <div class="position-absolute top-0 end-0 p-2">
+                                <span class="badge bg-primary">ID: @article.Id</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title mb-3">@article.Title</h5>
+                            <p class="card-text text-muted mb-3">@article.Description</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="badge bg-light text-dark">
+                                    <i class="fas fa-tag me-1"></i>@article.CategoryID
+                                </span>
+                                <div class="btn-group">
+                                    <a asp-action="Update" asp-route-id="@article.Id" 
+                                       class="btn btn-outline-primary btn-sm">
+                                        <i class="fas fa-edit me-1"></i>Upravit
+                                    </a>
+                                    <a asp-action="Delete" asp-route-id="@article.Id" 
+                                       class="btn btn-outline-danger btn-sm"
+                                       onclick="return ConfirmDelete();">
+                                        <i class="fas fa-trash me-1"></i>Smazat
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
     }
     else
     {
-        <p>Article table is empty!</p>
+        <div class="row">
+            <div class="col-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body text-center py-5">
+                        <i class="fas fa-newspaper fa-3x text-muted mb-3"></i>
+                        <h3 class="h4">Zatím zde nejsou žádné články</h3>
+                        <p class="text-muted">Začněte vytvořením nového článku</p>
+                        <a asp-action="Create" class="btn btn-primary">
+                            <i class="fas fa-plus-circle me-2"></i>Vytvořit článek
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     }
-}
+</div>
 
 @section Scripts
 {
