@@ -4,15 +4,10 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Zpravodajstvi - Home page</h1>
-    <br />
-</div>
-
 @{
     if (Model != null && Model.Carousels != null && Model.Carousels.Count > 0)
     {
-        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+        <div id="carouselExampleControls" class="carousel slide mx-auto" style="max-width: 1200px;" data-bs-ride="carousel">
             <div class="carousel-inner">
                 @{
                     string active = "active";
@@ -22,9 +17,6 @@
                     {
                         <div class="carousel-item @active">
                             <img src="@carousels[i].ImageSrc" class="d-block w-100" alt="@carousels[i].ImageAlt">
-                            <div class="carousel-caption">
-                                <h3>@carousels[i].ImageAlt</h3>
-                            </div>
                         </div>
                         active = String.Empty;
                     }
@@ -45,36 +37,36 @@
 @{
     if (Model != null && Model.Articles != null && Model.Articles.Count > 0)
     {
-        <div class="tags-section">
+        <div class="tags-section text-center py-4">
             <div class="container">
-                <button class="tag-button active" data-category="all">Všechny</button>
-                @foreach (var category in Model.Articles.Select(a => a.CategoryID).Distinct())
-                {
-                    <button class="tag-button" data-category="@category">@category</button>
-                }
+                <div class="d-flex justify-content-center flex-wrap gap-2">
+                    <button class="tag-button btn btn-outline-primary active" data-category="all">Všechny</button>
+                    @foreach (var category in Model.Articles.Select(a => a.CategoryID).Distinct())
+                    {
+                        <button class="tag-button btn btn-outline-primary" data-category="@category">@category</button>
+                    }
+                </div>
             </div>
         </div>
 
         <section class="py-4">
             <div class="container">
-                <div class="row g-4 row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4">
+                <div class="row g-4 row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 justify-content-center">
                     @foreach (var article in Model.Articles)
                     {
                         <div class="col" data-category="@article.CategoryID">
-                            <div class="card h-100">
+                            <div class="card h-100 shadow-sm">
                                 <img class="card-img-top" src="@article.ImageSrc" alt="Article Image" />
-                                <div class="card-body">
+                                <div class="card-body text-center">
                                     <h5 class="fw-bolder">
-                                        <a href="">@article.Title</a>
+                                        <a href="" class="text-decoration-none text-dark">@article.Title</a>
                                     </h5>
                                     <p class="text-muted">@article.Description</p>
                                 </div>
-                                <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                    <div class="text-center">
-                                        <a class="btn btn-outline-dark mt-auto" href="#">
-                                            <i class="bi bi-heart"></i> Přidat do oblíbených
-                                        </a>
-                                    </div>
+                                <div class="card-footer bg-transparent border-0 text-center pb-3">
+                                    <a class="btn btn-outline-primary" href="#">
+                                        <i class="bi bi-heart"></i> Přidat do oblíbených
+                                    </a>
                                 </div>
                             </div>
                         </div>

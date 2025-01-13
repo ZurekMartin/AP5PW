@@ -6,33 +6,45 @@
 {
     <link rel="stylesheet" href="~/css/login.css" />
 }
-<div id="logreg-forms">
-    <form asp-action="Login" method="post" class="form-signin">
-        <br />
-        <h1 class="h3 mb-3 font-weight-normal" style="text-align: center"> Login</h1>
-        <br />
-        @{
-            if (Model?.LoginFailed == true)
-            {
-                <div class="text-danger">Login Failed!</div>
-            }
-        }
-        <div asp-validation-summary="All" class="text-danger"></div>
-        <input asp-for="Username" type="text" id="inputUsername" class="form-control" placeholder="Username" autofocus="">
-        <span asp-validation-for="Username" class="text-danger"></span>
-        <br />
-        <input asp-for="Password" type="password" id="inputPassword" class="form-control" placeholder="Password">
-        <span asp-validation-for="Password" class="text-danger"></span>
-        <br />
-        <div class="text-center">
-            <a asp-action="Register" id="btn-signup">Not Registered Yet?</a>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow-sm border-0 p-4 mt-5">
+                <form asp-action="Login" method="post" class="form-signin">
+                    <h1 class="h3 mb-4 text-center">Login</h1>
+                    
+                    @{
+                        if (Model?.LoginFailed == true)
+                        {
+                            <div class="alert alert-danger">Login Failed!</div>
+                        }
+                    }
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    
+                    <div class="form-floating mb-3">
+                        <input asp-for="Username" type="text" class="form-control" id="inputUsername" placeholder="Username">
+                        <label for="inputUsername">Username</label>
+                        <span asp-validation-for="Username" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input asp-for="Password" type="password" class="form-control" id="inputPassword" placeholder="Password">
+                        <label for="inputPassword">Password</label>
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-primary" type="submit">
+                            <i class="fas fa-sign-in-alt me-2"></i>Log in
+                        </button>
+                        <a asp-action="Register" class="btn btn-outline-secondary">
+                            Not Registered Yet?
+                        </a>
+                    </div>
+                </form>
+            </div>
         </div>
-        <br />
-        <div class="text-center">
-            <button class="btn btn-success btn-block" type="submit"><i class="fas fa-sign-in-alt"></i>Log in</button>
-        </div>
-        <br />
-    </form>
+    </div>
 </div>
 @section Scripts
 {
