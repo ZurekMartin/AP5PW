@@ -1,0 +1,98 @@
+@model IList<User>
+@{
+    ViewData["Title"] = "Správa uživatelů";
+}
+
+<div class="container-fluid py-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card bg-light border-0 shadow-sm">
+                <div class="card-body">
+                    <h1 class="h3 mb-0">@ViewData["Title"]</h1>
+                    <p class="text-muted mb-0">Přehled všech registrovaných uživatelů</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Avatar</th>
+                                    <th>Jméno</th>
+                                    <th>Příjmení</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Akce</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var user in Model)
+                                {
+                                    <tr>
+                                        <td>@user.Id</td>
+                                        <td>
+                                            <img src="https://ui-avatars.com/api/?name=@user.UserName&background=random" 
+                                                 class="rounded-circle" width="32" height="32" alt="Avatar">
+                                        </td>
+                                        <td>@user.FirstName</td>
+                                        <td>@user.LastName</td>
+                                        <td>@user.Email</td>
+                                        <td>
+                                            <select class="form-select form-select-sm role-select" 
+                                                    data-user-id="@user.Id">
+                                                @foreach (var role in Enum.GetNames(typeof(Roles)))
+                                                {
+                                                    <option value="@role">@role</option>
+                                                }
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <a asp-action="Update" asp-route-id="@user.Id" 
+                                                   class="btn btn-outline-primary btn-sm">
+                                                    <i class="fas fa-edit me-1"></i>Upravit
+                                                </a>
+                                                <a asp-action="Delete" asp-route-id="@user.Id" 
+                                                   class="btn btn-outline-danger btn-sm"
+                                                   onclick="return confirm('Opravdu chcete smazat tohoto uživatele?');">
+                                                    <i class="fas fa-trash me-1"></i>Smazat
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            $('.role-select').change(function() {
+                var userId = $(this).data('user-id');
+                var newRole = $(this).val();
+                
+                $.post('/Admin/User/ChangeRole', { userId: userId, newRole: newRole })
+                    .done(function(response) {
+                        if (response.success) {
+                            toastr.success('Role byla úspěšně změněna');
+                        } else {
+                            toastr.error('Při změně role došlo k chybě');
+                        }
+                    });
+            });
+        });
+    </script>
+} 
