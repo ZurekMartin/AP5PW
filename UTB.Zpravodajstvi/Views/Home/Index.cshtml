@@ -14,7 +14,6 @@
     {
         <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
-
                 @{
                     string active = "active";
                     IList<Carousel> carousels = Model.Carousels;
@@ -23,12 +22,13 @@
                     {
                         <div class="carousel-item @active">
                             <img src="@carousels[i].ImageSrc" class="d-block w-100" alt="@carousels[i].ImageAlt">
+                            <div class="carousel-caption">
+                                <h3>@carousels[i].ImageAlt</h3>
+                            </div>
                         </div>
-
                         active = String.Empty;
                     }
                 }
-
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -45,25 +45,36 @@
 @{
     if (Model != null && Model.Articles != null && Model.Articles.Count > 0)
     {
-        <section class="py-5">
-            <div class="container px-4 px-lg-5 mt-5">
-                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+        <div class="tags-section">
+            <div class="container">
+                <button class="tag-button active" data-category="all">Všechny</button>
+                @foreach (var category in Model.Articles.Select(a => a.CategoryID).Distinct())
+                {
+                    <button class="tag-button" data-category="@category">@category</button>
+                }
+            </div>
+        </div>
+
+        <section class="py-4">
+            <div class="container">
+                <div class="row g-4 row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4">
                     @foreach (var article in Model.Articles)
                     {
-                        <div class="col mb-5">
+                        <div class="col" data-category="@article.CategoryID">
                             <div class="card h-100">
                                 <img class="card-img-top" src="@article.ImageSrc" alt="Article Image" />
-                                <div class="card-body p-4">
-                                    <div class="text-center">
-                                        <h5 class="fw-bolder">
-                                            <a href="">@article.Title</a>
-                                        </h5>
-                                        @article.Description
-                                        @article.CategoryID
-                                    </div>
+                                <div class="card-body">
+                                    <h5 class="fw-bolder">
+                                        <a href="">@article.Title</a>
+                                    </h5>
+                                    <p class="text-muted">@article.Description</p>
                                 </div>
                                 <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                    <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Add To Favorites</a></div>
+                                    <div class="text-center">
+                                        <a class="btn btn-outline-dark mt-auto" href="#">
+                                            <i class="bi bi-heart"></i> Přidat do oblíbených
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -71,10 +82,35 @@
                 </div>
             </div>
         </section>
+
+        @section Scripts {
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const tagButtons = document.querySelectorAll('.tag-button');
+                    const articles = document.querySelectorAll('.col[data-category]');
+
+                    tagButtons.forEach(button => {
+                        button.addEventListener('click', () => {
+                            const category = button.dataset.category;
+                            
+                            tagButtons.forEach(btn => btn.classList.remove('active'));
+                            button.classList.add('active');
+
+                            articles.forEach(article => {
+                                if (category === 'all' || article.dataset.category === category) {
+                                    article.style.display = '';
+                                } else {
+                                    article.style.display = 'none';
+                                }
+                            });
+                        });
+                    });
+                });
+            </script>
+        }
     }
 }
 
-@section Styles
-{
+@section Styles {
     <link rel="stylesheet" href="~/css/shop_home.css" asp-append-version="true" />
 }
