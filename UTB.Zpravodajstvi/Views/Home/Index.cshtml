@@ -1,108 +1,293 @@
 ﻿@model CarouselArticleViewModel
 
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Zpravodajství";
 }
 
-@{
-    if (Model != null && Model.Carousels != null && Model.Carousels.Count > 0)
-    {
-        <div id="carouselExampleControls" class="carousel slide mx-auto" style="max-width: 1200px;" data-bs-ride="carousel">
+@if (Model?.Carousels?.Count > 0)
+{
+    <div class="hero-section">
+        <div id="mainCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                @for (int i = 0; i < Model.Carousels.Count; i++)
+                {
+                    <button type="button" data-bs-target="#mainCarousel" 
+                            data-bs-slide-to="@i" class="@(i == 0 ? "active" : "")"
+                            aria-current="@(i == 0 ? "true" : "false")" 
+                            aria-label="Slide @(i + 1)"></button>
+                }
+            </div>
             <div class="carousel-inner">
                 @{
                     string active = "active";
-                    IList<Carousel> carousels = Model.Carousels;
-
-                    for (int i = 0; i < carousels.Count; ++i)
+                    foreach (var carousel in Model.Carousels)
                     {
-                        <div class="carousel-item @active">
-                            <img src="@carousels[i].ImageSrc" class="d-block w-100" alt="@carousels[i].ImageAlt">
+                        <div class="carousel-item @active" data-bs-interval="5000">
+                            <div class="overlay-container">
+                                <img src="@carousel.ImageSrc" class="d-block w-100" alt="@carousel.ImageAlt">
+                                <div class="carousel-caption">
+                                    <h2 class="display-4 fw-bold text-shadow">@carousel.ImageAlt</h2>
+                                </div>
+                            </div>
                         </div>
-                        active = String.Empty;
+                        active = string.Empty;
                     }
                 }
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+            <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Previous</span>
             </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+            <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Next</span>
             </button>
         </div>
-    }
+    </div>
 }
 
-@{
-    if (Model != null && Model.Articles != null && Model.Articles.Count > 0)
-    {
-        <div class="tags-section text-center py-4">
-            <div class="container">
-                <div class="d-flex justify-content-center flex-wrap gap-2">
-                    <button class="tag-button btn btn-outline-primary active" data-category="all">Všechny</button>
-                    @foreach (var category in Model.Articles.Select(a => a.CategoryID).Distinct())
-                    {
-                        <button class="tag-button btn btn-outline-primary" data-category="@category">@category</button>
-                    }
+@if (Model?.Articles?.Count > 0)
+{
+    <div class="container-fluid py-5">
+        <div class="row">
+            <div class="col-12 col-lg-3 mb-4">
+                <div class="card border-0 shadow-sm sticky-top" style="top: 5rem;">
+                    <div class="card-header bg-primary text-white py-3">
+                        <h5 class="mb-0">
+                            <i class="fas fa-filter me-2"></i>Filtry
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex flex-column gap-2">
+                            <button class="tag-button btn btn-outline-primary w-100 active" data-category="all">
+                                <i class="fas fa-globe me-2"></i>Všechny články
+                            </button>
+                            @foreach (var category in Model.Articles.Select(a => a.CategoryID).Distinct())
+                            {
+                                <button class="tag-button btn btn-outline-primary w-100" data-category="@category">
+                                    <i class="fas fa-tag me-2"></i>@category
+                                </button>
+                            }
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <section class="py-4">
-            <div class="container">
-                <div class="row g-4 row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 justify-content-center">
-                    @foreach (var article in Model.Articles)
+            <div class="col-12 col-lg-9">
+                <div class="row g-4">
+                    @if (Model.Articles.Any())
                     {
-                        <div class="col" data-category="@article.CategoryID">
-                            <div class="card h-100 shadow-sm">
-                                <img class="card-img-top" src="@article.ImageSrc" alt="Article Image" />
-                                <div class="card-body text-center">
-                                    <h5 class="fw-bolder">
-                                        <a href="" class="text-decoration-none text-dark">@article.Title</a>
-                                    </h5>
-                                    <p class="text-muted">@article.Description</p>
+                        var mainArticle = Model.Articles.First();
+                        <div class="col-12 mb-4">
+                            <div class="card border-0 shadow-sm featured-article" data-category="@mainArticle.CategoryID">
+                                <div class="row g-0">
+                                    <div class="col-md-8">
+                                        <div class="position-relative h-100">
+                                            @if (!string.IsNullOrEmpty(mainArticle.ImageSrc))
+                                            {
+                                                <img src="@mainArticle.ImageSrc" class="w-100 h-100 object-fit-cover" 
+                                                     style="min-height: 400px;" alt="@mainArticle.Title">
+                                            }
+                                            <div class="position-absolute top-0 start-0 m-3">
+                                                <span class="badge bg-primary">
+                                                    <i class="fas fa-star me-1"></i>Hlavní článek
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="card-body h-100 d-flex flex-column">
+                                            <div class="mb-3">
+                                                <span class="badge bg-secondary">
+                                                    <i class="fas fa-tag me-1"></i>@mainArticle.CategoryID
+                                                </span>
+                                            </div>
+                                            <h3 class="card-title mb-3">@mainArticle.Title</h3>
+                                            <p class="card-text flex-grow-1">@mainArticle.Description</p>
+                                            <div class="mt-auto">
+                                                <a href="#" class="btn btn-primary w-100">
+                                                    <i class="fas fa-book-reader me-2"></i>Číst více
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="card-footer bg-transparent border-0 text-center pb-3">
-                                    <a class="btn btn-outline-primary" href="#">
-                                        <i class="bi bi-heart"></i> Přidat do oblíbených
-                                    </a>
+                            </div>
+                        </div>
+                    }
+
+                    @foreach (var article in Model.Articles.Skip(1))
+                    {
+                        <div class="col-12 col-md-6 col-xl-4" data-category="@article.CategoryID">
+                            <div class="card h-100 border-0 shadow-sm article-card">
+                                <div class="position-relative">
+                                    @if (!string.IsNullOrEmpty(article.ImageSrc))
+                                    {
+                                        <img src="@article.ImageSrc" class="card-img-top" alt="@article.Title" 
+                                             style="height: 200px; object-fit: cover;">
+                                    }
+                                    else
+                                    {
+                                        <div class="bg-light text-center py-5">
+                                            <i class="fas fa-newspaper fa-3x text-muted"></i>
+                                        </div>
+                                    }
+                                    <div class="position-absolute top-0 start-0 m-3">
+                                        <span class="badge bg-primary">
+                                            <i class="fas fa-tag me-1"></i>@article.CategoryID
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title mb-3">@article.Title</h5>
+                                    <p class="card-text text-muted flex-grow-1">@article.Description</p>
+                                    <div class="mt-3">
+                                        <a href="#" class="btn btn-outline-primary w-100">
+                                            <i class="fas fa-arrow-right me-1"></i>Číst více
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     }
                 </div>
             </div>
-        </section>
+        </div>
+    </div>
 
-        @section Scripts {
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    const tagButtons = document.querySelectorAll('.tag-button');
-                    const articles = document.querySelectorAll('.col[data-category]');
-
-                    tagButtons.forEach(button => {
-                        button.addEventListener('click', () => {
-                            const category = button.dataset.category;
-                            
-                            tagButtons.forEach(btn => btn.classList.remove('active'));
-                            button.classList.add('active');
-
-                            articles.forEach(article => {
-                                if (category === 'all' || article.dataset.category === category) {
-                                    article.style.display = '';
-                                } else {
-                                    article.style.display = 'none';
-                                }
-                            });
-                        });
-                    });
-                });
-            </script>
-        }
-    }
+        <footer class="footer bg-light mt-5 py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-4 mb-3">
+                    <h5 class="text-primary mb-3">UTB Zpravodajství</h5>
+                    <p class="text-muted">Váš spolehlivý zdroj informací ze světa UTB</p>
+                </div>
+                <div class="col-6 col-md-4 mb-3">
+                    <h5 class="text-dark mb-3">Rychlé odkazy</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <a asp-area="" asp-controller="Home" asp-action="Index" 
+                               class="text-muted text-decoration-none">
+                                <i class="fas fa-home me-2"></i>Domů
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a asp-area="" asp-controller="Home" asp-action="Error" 
+                               class="text-muted text-decoration-none">
+                                <i class="fas fa-newspaper me-2"></i>Články
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a asp-area="" asp-controller="Home" asp-action="Privacy" 
+                               class="text-muted text-decoration-none">
+                                <i class="fas fa-shield-alt me-2"></i>Ochrana soukromí
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-6 col-md-4 mb-3">
+                    <h5 class="text-dark mb-3">Sledujte nás</h5>
+                    <div class="d-flex gap-2">
+                        <a href="https://www.facebook.com/UTBZlin/?locale=cs_CZ" target="_blank" class="btn btn-outline-primary">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                                                <a href="https://www.instagram.com/utbzlin/" target="_blank" class="btn btn-outline-danger">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://twitter.com/UTBZlin" target="_blank" class="btn btn-outline-info">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="text-center text-muted">
+                &copy; @DateTime.Now.Year - UTB Zpravodajství
+            </div>
+        </div>
+    </footer>
 }
 
 @section Styles {
-    <link rel="stylesheet" href="~/css/shop_home.css" asp-append-version="true" />
+    <style>
+        .hero-section {
+            margin-top: -1.5rem;
+        }
+        
+        .overlay-container {
+            position: relative;
+        }
+        
+        .overlay-container::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.7));
+        }
+        
+        .carousel-item img {
+            height: 60vh;
+            object-fit: cover;
+        }
+        
+        .text-shadow {
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .article-card {
+            transition: transform 0.2s;
+        }
+        
+        .article-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .featured-article {
+            transition: transform 0.2s;
+        }
+        
+        .featured-article:hover {
+            transform: translateY(-5px);
+        }
+        
+        .tag-button.active {
+            background-color: var(--bs-primary);
+            color: white;
+        }
+
+        .object-fit-cover {
+            object-fit: cover;
+        }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tagButtons = document.querySelectorAll('.tag-button');
+            const articles = document.querySelectorAll('#articles-grid .col');
+
+            tagButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const category = button.dataset.category;
+                    
+                    tagButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+
+                    articles.forEach(article => {
+                        if (category === 'all' || article.dataset.category === category) {
+                            article.style.display = '';
+                            article.classList.add('fade-in');
+                        } else {
+                            article.style.display = 'none';
+                            article.classList.remove('fade-in');
+                        }
+                    });
+                });
+            });
+        });
+    </script>
 }
