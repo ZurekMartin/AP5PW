@@ -33,29 +33,29 @@ namespace UTB.Zpravodajstvi.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public IActionResult Update(User user)
+        public async Task<IActionResult> Update(User user)
         {
             if (ModelState.IsValid)
             {
-                bool updated = _userAppService.Update(user);
+                bool updated = await _userAppService.Update(user);
                 if (updated)
                     return RedirectToAction(nameof(Select));
             }
             return View(user);
         }
 
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            bool deleted = _userAppService.Delete(id);
+            bool deleted = await _userAppService.Delete(id);
             if (deleted)
                 return RedirectToAction(nameof(Select));
             return NotFound();
         }
 
         [HttpPost]
-        public IActionResult ChangeRole(int userId, string newRole)
+        public async Task<IActionResult> ChangeRole(int userId, string newRole)
         {
-            bool changed = _userAppService.ChangeRole(userId, newRole);
+            bool changed = await _userAppService.ChangeRole(userId, newRole);
             return Json(new { success = changed });
         }
     }

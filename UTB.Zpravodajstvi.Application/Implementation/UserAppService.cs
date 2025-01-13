@@ -25,7 +25,7 @@ namespace UTB.Zpravodajstvi.Application.Implementation
             return _userManager.Users.FirstOrDefault(u => u.Id == id);
         }
 
-        public async bool Update(User user)
+        public async Task<bool> Update(User user)
         {
             var existingUser = await _userManager.FindByIdAsync(user.Id.ToString());
             if (existingUser != null)
@@ -41,7 +41,7 @@ namespace UTB.Zpravodajstvi.Application.Implementation
             return false;
         }
 
-        public async bool Delete(int id)
+        public async Task<bool> Delete(int id)
         {
             var user = await _userManager.FindByIdAsync(id.ToString());
             if (user != null)
@@ -52,7 +52,7 @@ namespace UTB.Zpravodajstvi.Application.Implementation
             return false;
         }
 
-        public async bool ChangeRole(int userId, string newRole)
+        public async Task<bool> ChangeRole(int userId, string newRole)
         {
             var user = await _userManager.FindByIdAsync(userId.ToString());
             if (user != null)

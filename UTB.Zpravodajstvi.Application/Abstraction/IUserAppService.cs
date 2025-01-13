@@ -6,8 +6,8 @@ namespace UTB.Zpravodajstvi.Application.Abstraction
     {
         IList<User> Select();
         User GetById(int id);
-        bool Update(User user);
-        bool Delete(int id);
-        bool ChangeRole(int userId, string newRole);
+        Task<bool> Update(User user);
+        Task<bool> Delete(int id);
+        Task<bool> ChangeRole(int userId, string newRole);
     }
 } 
