@@ -1,138 +1,111 @@
 ﻿@model RegisterViewModel
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "Registrace";
+    ViewData["ShowFooter"] = true;
 }
 @section Styles
 {
     <link rel="stylesheet" href="~/css/auth.css" />
 }
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-6 col-lg-4">
-            <div class="card shadow-sm border-0 p-4 mt-5">
-                <div class="text-center mb-4">
-                    <i class="fas fa-user-plus fa-3x text-primary"></i>
-                    <h1 class="h3 mt-3">Register</h1>
-                    <p class="text-muted">Create your account to get started</p>
-                </div>
 
-                <form asp-action="Register" method="post" class="form-signup">
-                    <div asp-validation-summary="All" class="text-danger"></div>
-                    
-                    <div class="form-floating mb-3">
-                        <input asp-for="FirstName" type="text" class="form-control" id="first-name" placeholder="First name">
-                        <label for="first-name">
-                            <i class="fas fa-user me-2"></i>First name
-                        </label>
-                        <span asp-validation-for="FirstName" class="text-danger"></span>
-                    </div>
-
-                    <div class="form-floating mb-3">
-                        <input asp-for="LastName" type="text" class="form-control" id="last-name" placeholder="Last name">
-                        <label for="last-name">
-                            <i class="fas fa-user me-2"></i>Last name
-                        </label>
-                        <span asp-validation-for="LastName" class="text-danger"></span>
-                    </div>
-
-                    <div class="form-floating mb-3">
-                        <input asp-for="Username" type="text" class="form-control" id="user-name" placeholder="Username">
-                        <label for="user-name">
-                            <i class="fas fa-at me-2"></i>Username
-                        </label>
-                        <span asp-validation-for="Username" class="text-danger"></span>
-                    </div>
-
-                    <div class="form-floating mb-3">
-                        <input asp-for="Email" type="email" class="form-control" id="user-email" placeholder="Email address">
-                        <label for="user-email">
-                            <i class="fas fa-envelope me-2"></i>Email address
-                        </label>
-                        <span asp-validation-for="Email" class="text-danger"></span>
-                    </div>
-
-                    <div class="form-floating mb-3">
-                        <input asp-for="Password" type="password" class="form-control" id="user-pass" placeholder="Password">
-                        <label for="user-pass">
-                            <i class="fas fa-lock me-2"></i>Password
-                        </label>
-                        <span asp-validation-for="Password" class="text-danger"></span>
-                    </div>
-
-                    <div class="form-floating mb-4">
-                        <input asp-for="RepeatedPassword" type="password" class="form-control" id="user-repeatpass" placeholder="Repeat Password">
-                        <label for="user-repeatpass">
-                            <i class="fas fa-lock me-2"></i>Repeat Password
-                        </label>
-                        <span asp-validation-for="RepeatedPassword" class="text-danger"></span>
-                    </div>
-
-                    <div class="d-grid gap-2">
-                        <button class="btn btn-primary" type="submit">
-                            <i class="fas fa-user-plus me-2"></i>Register
-                        </button>
-                        <a asp-action="Login" class="btn btn-outline-secondary">
-                            <i class="fas fa-sign-in-alt me-2"></i>Already Have An Account?
-                        </a>
-                    </div>
-                </form>
+<div class="auth-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="display-5 fw-bold">@ViewData["Title"]</h1>
+                <p class="lead">Vytvořte si účet a začněte používat UTB Zpravodajství</p>
             </div>
         </div>
     </div>
 </div>
 
-    <footer class="footer bg-light mt-5 py-4">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 col-md-4 mb-3">
-                    <h5 class="text-primary mb-3">UTB Zpravodajství</h5>
-                    <p class="text-muted">Váš spolehlivý zdroj informací ze světa UTB</p>
-                </div>
-                <div class="col-6 col-md-4 mb-3">
-                    <h5 class="text-dark mb-3">Rychlé odkazy</h5>
-                    <ul class="list-unstyled">
-                        <li class="mb-2">
-                            <a asp-area="" asp-controller="Home" asp-action="Index" 
-                               class="text-muted text-decoration-none">
-                                <i class="fas fa-home me-2"></i>Domů
-                            </a>
-                        </li>
-                        <li class="mb-2">
-                            <a asp-area="" asp-controller="Home" asp-action="Error" 
-                               class="text-muted text-decoration-none">
-                                <i class="fas fa-newspaper me-2"></i>Články
-                            </a>
-                        </li>
-                        <li class="mb-2">
-                            <a asp-area="" asp-controller="Home" asp-action="Privacy" 
-                               class="text-muted text-decoration-none">
-                                <i class="fas fa-shield-alt me-2"></i>Ochrana soukromí
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-6 col-md-4 mb-3">
-                    <h5 class="text-dark mb-3">Sledujte nás</h5>
-                    <div class="d-flex gap-2">
-                        <a href="https://www.facebook.com/UTBZlin/?locale=cs_CZ" target="_blank" class="btn btn-outline-primary">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                                                <a href="https://www.instagram.com/utbzlin/" target="_blank" class="btn btn-outline-danger">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="https://twitter.com/UTBZlin" target="_blank" class="btn btn-outline-info">
-                            <i class="fab fa-twitter"></i>
-                        </a>
+<div class="auth-container">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="auth-card">
+                    <div class="text-center">
+                        <div class="auth-icon">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
                     </div>
+
+                    <form asp-action="Register" method="post" class="form-signup">
+                        @if (ViewData.ModelState.IsValid == false)
+                        {
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                        }
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input asp-for="FirstName" class="form-control" id="first-name" placeholder="Jméno">
+                                    <label for="first-name">
+                                        <i class="fas fa-user me-2"></i>Jméno
+                                    </label>
+                                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input asp-for="LastName" class="form-control" id="last-name" placeholder="Příjmení">
+                                    <label for="last-name">
+                                        <i class="fas fa-user me-2"></i>Příjmení
+                                    </label>
+                                    <span asp-validation-for="LastName" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-floating">
+                            <input asp-for="Username" class="form-control" id="user-name" placeholder="Uživatelské jméno">
+                            <label for="user-name">
+                                <i class="fas fa-at me-2"></i>Uživatelské jméno
+                            </label>
+                            <span asp-validation-for="Username" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-floating">
+                            <input asp-for="Email" class="form-control" id="user-email" placeholder="E-mailová adresa">
+                            <label for="user-email">
+                                <i class="fas fa-envelope me-2"></i>E-mailová adresa
+                            </label>
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-floating">
+                            <input asp-for="Password" class="form-control" id="user-pass" placeholder="Heslo">
+                            <label for="user-pass">
+                                <i class="fas fa-lock me-2"></i>Heslo
+                            </label>
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-floating mb-4">
+                            <input asp-for="RepeatedPassword" class="form-control" id="user-repeatpass" placeholder="Zopakujte heslo">
+                            <label for="user-repeatpass">
+                                <i class="fas fa-lock me-2"></i>Zopakujte heslo
+                            </label>
+                            <span asp-validation-for="RepeatedPassword" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-grid gap-3">
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fas fa-user-plus me-2"></i>Registrovat
+                            </button>
+                            <a asp-action="Login" class="btn btn-outline-secondary">
+                                <i class="fas fa-sign-in-alt me-2"></i>Už máte účet?
+                            </a>
+                        </div>
+                    </form>
                 </div>
-            </div>
-            <hr>
-            <div class="text-center text-muted">
-                &copy; @DateTime.Now.Year - UTB Zpravodajství
             </div>
         </div>
-    </footer>
+    </div>
+</div>
+
 @section Scripts
 {
     <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/validations/registrationValidation.js"></script>
 }

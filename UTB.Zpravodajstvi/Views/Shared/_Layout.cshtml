@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/content.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/UTB.Zpravodajstvi.styles.css" asp-append-version="true" />
     @await RenderSectionAsync("Styles", required: false)
 </head>
@@ -78,11 +78,11 @@
                     else
                     {
                         <div class="d-flex gap-2">
-                            <a class="btn btn-outline-primary" asp-area="Security" 
+                            <a class="btn btn-outline-primary rounded-pill" asp-area="Security" 
                                asp-controller="Account" asp-action="Login">
                                 <i class="fas fa-sign-in-alt me-1"></i>Přihlásit se
                             </a>
-                            <a class="btn btn-primary" asp-area="Security" 
+                            <a class="btn btn-primary rounded-pill" asp-area="Security" 
                                asp-controller="Account" asp-action="Register">
                                 <i class="fas fa-user-plus me-1"></i>Registrace
                             </a>
@@ -98,6 +98,63 @@
             @RenderBody()
         </main>
     </div>
+@if (ViewData["ShowFooter"] != null && (bool)ViewData["ShowFooter"])
+{
+    <footer class="footer bg-light mt-5 py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-4 mb-3">
+                    <h5 class="text-primary mb-3">UTB Zpravodajství</h5>
+                    <p class="text-muted">Váš spolehlivý zdroj informací ze světa UTB</p>
+                </div>
+                <div class="col-6 col-md-4 mb-3">
+                    <h5 class="text-dark mb-3">Rychlé odkazy</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <a asp-area="" asp-controller="Home" asp-action="Index" 
+                               class="text-muted text-decoration-none">
+                                <i class="fas fa-home me-2"></i>Domů
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a asp-area="" asp-controller="Articles" asp-action="Index" 
+                               class="text-muted text-decoration-none">
+                                <i class="fas fa-newspaper me-2"></i>Články
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a asp-area="" asp-controller="Home" asp-action="Privacy" 
+                               class="text-muted text-decoration-none">
+                                <i class="fas fa-shield-alt me-2"></i>Ochrana soukromí
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-6 col-md-4 mb-3">
+                    <h5 class="text-dark mb-3">Sledujte nás</h5>
+                    <div class="d-flex gap-2">
+                        <a href="https://www.facebook.com/UTBZlin/?locale=cs_CZ" target="_blank" class="btn btn-outline-primary">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                                                <a href="https://www.instagram.com/utbzlin/" target="_blank" class="btn btn-outline-danger">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://twitter.com/UTBZlin" target="_blank" class="btn btn-outline-info">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="text-center text-muted">
+                &copy; @DateTime.Now.Year - UTB Zpravodajství - 
+                <a href="https://www.github.com/zurekmartin" target="_blank" class="text-muted text-decoration-none">
+                    Made by Zurek Martin
+                </a>
+            </div>
+        </div>
+    </footer>
+}
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
