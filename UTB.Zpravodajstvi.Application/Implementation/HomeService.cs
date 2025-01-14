@@ -2,6 +2,7 @@
 using UTB.Zpravodajstvi.Application.ViewModels;
 using UTB.Zpravodajstvi.Domain.Entities;
 using UTB.Zpravodajstvi.Infrastructure.Database;
+using Microsoft.EntityFrameworkCore;
 
 namespace UTB.Zpravodajstvi.Application.Implementation
 {
@@ -32,7 +33,11 @@ namespace UTB.Zpravodajstvi.Application.Implementation
 
         public IList<Article> GetArticles()
         {
-            return _zpravodajstviDbContext.Articles.ToList();
+            return _zpravodajstviDbContext.Articles
+                .Include(a => a.Category)
+                .Include(a => a.ArticleTags)
+                    .ThenInclude(at => at.Tag)
+                .ToList();
         }
 
         public IList<Category> GetCategories()

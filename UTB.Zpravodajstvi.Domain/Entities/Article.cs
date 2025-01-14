@@ -25,5 +25,7 @@ namespace UTB.Zpravodajstvi.Domain.Entities
         public IFormFile? Image { get; set; }
         [ForeignKey(nameof(CategoryID))]
         public int CategoryID { get; set; }
+        public Category? Category { get; set; }
+        public ICollection<ArticleTag>? ArticleTags { get; set; }
     }
 }

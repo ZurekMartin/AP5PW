@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using UTB.Zpravodajstvi.Infrastructure.Database;
 using UTB.Zpravodajstvi.Domain.Entities;
 using UTB.Zpravodajstvi.Application.Abstraction;
+using Microsoft.EntityFrameworkCore;
 
 namespace UTB.Zpravodajstvi.Application.Implementation
 {
@@ -20,11 +21,19 @@ namespace UTB.Zpravodajstvi.Application.Implementation
         }
         public IList<Article> Select()
         {
-            return _zpravodajstviDbContext.Articles.ToList();
+            return _zpravodajstviDbContext.Articles
+                .Include(a => a.Category)
+                .Include(a => a.ArticleTags)
+                    .ThenInclude(at => at.Tag)
+                .ToList();
         }
-        public Article GetById(int id)
+        public Article? GetById(int id)
         {
-            return _zpravodajstviDbContext.Articles.FirstOrDefault(a => a.Id == id);
+            return _zpravodajstviDbContext.Articles
+                .Include(a => a.Category)
+                .Include(a => a.ArticleTags)
+                    .ThenInclude(at => at.Tag)
+                .FirstOrDefault(a => a.Id == id);
         }
         public void Create(Article article)
         {
