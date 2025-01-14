@@ -10,17 +10,27 @@ namespace UTB.Zpravodajstvi.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         IHomeService _homeService;
+        ICarouselAppService _carouselAppService;
+        IArticleAppService _articleAppService;
 
         public HomeController(ILogger<HomeController> logger,
-                                  IHomeService homeService)
+                                  IHomeService homeService,
+                                  ICarouselAppService carouselAppService,
+                                  IArticleAppService articleAppService)
         {
             _logger = logger;
             _homeService = homeService;
+            _carouselAppService = carouselAppService;
+            _articleAppService = articleAppService;
         }
 
         public IActionResult Index()
         {
-            CarouselArticleViewModel viewModel = _homeService.GetIndexViewModel();
+            CarouselArticleViewModel viewModel = new CarouselArticleViewModel()
+            {
+                Carousels = _carouselAppService.Select(),
+                Articles = _articleAppService.Select().Take(6).ToList()
+            };
             return View(viewModel);
         }
 

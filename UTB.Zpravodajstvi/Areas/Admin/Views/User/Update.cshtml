@@ -1,66 +1,67 @@
-﻿@model Article
+@using UTB.Zpravodajstvi.Infrastructure.Identity
+@model User
 @{
-    ViewData["Title"] = "Úprava článku";
+    ViewData["Title"] = "Úprava uživatele";
 }
+
 <div class="container-fluid py-4">
     <div class="row justify-content-center">
         <div class="col-12 col-lg-8">
             <div class="card border-0 shadow-sm">
                 <div class="card-header bg-white border-0 py-4">
                     <h1 class="h3 mb-0 text-center">
-                        <i class="fas fa-edit me-2"></i>@ViewData["Title"]
+                        <i class="fas fa-user-edit me-2"></i>@ViewData["Title"]
                     </h1>
                 </div>
                 <div class="card-body p-4">
-                    <form asp-action="Update" method="post" enctype="multipart/form-data">
+                    <form asp-action="Update" method="post">
+                        <input type="hidden" asp-for="Id" />
+                        
+                        <div class="row mb-4">
+                            <div class="col-12 text-center">
+                                <img src="https://ui-avatars.com/api/?name=@Model.UserName&background=random" 
+                                     class="rounded-circle mb-3" width="100" height="100" alt="Avatar">
+                            </div>
+                        </div>
+
                         <div class="row">
-                            <div class="col-12 col-md-8 mb-4">
+                            <div class="col-md-6 mb-4">
                                 <div class="form-floating">
-                                    <input class="form-control" asp-for="Title" value="@Model.Title">
-                                    <label asp-for="Title">
-                                        <i class="fas fa-heading me-2"></i>Název článku
+                                    <input class="form-control" asp-for="FirstName">
+                                    <label asp-for="FirstName">
+                                        <i class="fas fa-user me-2"></i>Jméno
                                     </label>
-                                    <span asp-validation-for="Title" class="text-danger"></span>
+                                    <span asp-validation-for="FirstName" class="text-danger"></span>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-4 mb-4">
+                            <div class="col-md-6 mb-4">
                                 <div class="form-floating">
-                                    <input class="form-control" asp-for="CategoryID" value="@Model.CategoryID">
-                                    <label asp-for="CategoryID">
-                                        <i class="fas fa-tag me-2"></i>Kategorie
+                                    <input class="form-control" asp-for="LastName">
+                                    <label asp-for="LastName">
+                                        <i class="fas fa-user me-2"></i>Příjmení
                                     </label>
-                                    <span asp-validation-for="CategoryID" class="text-danger"></span>
+                                    <span asp-validation-for="LastName" class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
 
                         <div class="mb-4">
                             <div class="form-floating">
-                                <textarea class="form-control" asp-for="Description" 
-                                          style="height: 100px">@Model.Description</textarea>
-                                <label asp-for="Description">
-                                    <i class="fas fa-align-left me-2"></i>Popis článku
+                                <input class="form-control" asp-for="Email">
+                                <label asp-for="Email">
+                                    <i class="fas fa-envelope me-2"></i>Email
                                 </label>
-                                <span asp-validation-for="Description" class="text-danger"></span>
+                                <span asp-validation-for="Email" class="text-danger"></span>
                             </div>
                         </div>
 
                         <div class="mb-4">
-                            <label class="form-label d-block">
-                                <i class="fas fa-image me-2"></i>Obrázek článku
-                            </label>
-                            <div class="card bg-light">
-                                <div class="card-body">
-                                    @if (!string.IsNullOrEmpty(Model.ImageSrc))
-                                    {
-                                        <div class="mb-3">
-                                            <img src="@Model.ImageSrc" alt="Current Image" 
-                                                 class="img-thumbnail" style="max-height: 200px">
-                                        </div>
-                                    }
-                                    <input id="File" class="form-control" type="file" asp-for="Image">
-                                    <span asp-validation-for="Image" class="text-danger"></span>
-                                </div>
+                            <div class="form-floating">
+                                <input class="form-control" asp-for="UserName">
+                                <label asp-for="UserName">
+                                    <i class="fas fa-user-tag me-2"></i>Uživatelské jméno
+                                </label>
+                                <span asp-validation-for="UserName" class="text-danger"></span>
                             </div>
                         </div>
 
@@ -131,9 +132,6 @@
         </div>
     </footer>
 
-@section Scripts
-{
+@section Scripts {
     <partial name="_ValidationScriptsPartial" />
-    <script src="~/js/validations/FirstLetterCapitalizedCZ.js"></script>
-    <script src="~/js/Validations/FileContentValidation.js"></script>
-}
+} 

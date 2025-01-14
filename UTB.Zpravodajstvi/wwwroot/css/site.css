@@ -242,3 +242,24 @@ body {
         padding-top: 56px;
     }
 }
+
+.article-card {
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.article-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+.article-overlay {
+    background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%);
+}
+
+.breadcrumb-item a {
+    color: var(--bs-primary);
+}
+
+.breadcrumb-item a:hover {
+    color: var(--bs-primary-darker);
+}
