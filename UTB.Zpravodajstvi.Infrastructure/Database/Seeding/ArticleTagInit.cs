@@ -11,34 +11,15 @@ namespace UTB.Zpravodajstvi.Infrastructure.Database.Seeding
     {
         public IList<ArticleTag> GetArticleTags()
         {
-            IList<ArticleTag> articleTags = new List<ArticleTag>();
-
-            articleTags.Add(new ArticleTag
+            return new List<ArticleTag>
             {
-                Id = 1,
-                ArticleID = 1,
-                TagID = 1,
-            });
-            articleTags.Add(new ArticleTag
-            {
-                Id = 2,
-                ArticleID = 1,
-                TagID = 2,
-            });
-            articleTags.Add(new ArticleTag
-            {
-                Id = 3,
-                ArticleID = 2,
-                TagID= 1,
-            });
-            articleTags.Add(new ArticleTag
-            {
-                Id = 4,
-                ArticleID = 2,
-                TagID = 2,
-            });
-
-            return articleTags;
+                new ArticleTag { Id = 1, ArticleID = 1, TagID = 2 }, 
+                new ArticleTag { Id = 2, ArticleID = 1, TagID = 5 }, 
+                new ArticleTag { Id = 3, ArticleID = 2, TagID = 1 }, 
+                new ArticleTag { Id = 4, ArticleID = 2, TagID = 7 }, 
+                new ArticleTag { Id = 5, ArticleID = 3, TagID = 2 }, 
+                new ArticleTag { Id = 6, ArticleID = 3, TagID = 9 }, 
+            };
         }
     }
 }

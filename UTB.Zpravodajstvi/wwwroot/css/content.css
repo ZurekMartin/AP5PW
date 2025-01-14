@@ -37,6 +37,13 @@ body {
 
 .overlay-container {
     position: relative;
+    display: block;
+    text-decoration: none;
+    color: white;
+}
+
+.overlay-container:hover {
+    color: white;
 }
 
 .overlay-container::after {
@@ -120,4 +127,12 @@ body {
     .carousel-item img {
         height: 40vh;
     }
+} 
+
+.carousel-caption {
+    transition: transform 0.3s ease;
+}
+
+.overlay-container:hover .carousel-caption {
+    transform: scale(1.05);
 } 

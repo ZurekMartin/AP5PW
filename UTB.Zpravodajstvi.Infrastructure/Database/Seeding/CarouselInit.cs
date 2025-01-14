@@ -11,22 +11,30 @@ namespace UTB.Zpravodajstvi.Infrastructure.Database.Seeding
     {
         public IList<Carousel> GetCarousels()
         {
-            IList<Carousel> carousels = new List<Carousel>();
-
-            carousels.Add(new Carousel()
+            return new List<Carousel>
             {
-                Id = 1,
-                ImageSrc = "/img/img1.jpg",
-                ImageAlt = "První článek"
-            });
-            carousels.Add(new Carousel()
-            {
-                Id = 2,
-                ImageSrc = "/img/img2.jpg",
-                ImageAlt = "Druhý článek"
-            });
-
-            return carousels;
+                new Carousel
+                {
+                    Id = 1,
+                    ImageSrc = "/img/img1.jpg",
+                    ImageAlt = "UTB získala prestižní ocenění za výzkum",
+                    ArticleId = 1
+                },
+                new Carousel
+                {
+                    Id = 2,
+                    ImageSrc = "/img/img2.jpg",
+                    ImageAlt = "Inovativní projekty studentů designu",
+                    ArticleId = 2
+                },
+                new Carousel
+                {
+                    Id = 3,
+                    ImageSrc = "/img/img1.jpg",
+                    ImageAlt = "Nové technologické centrum na FAI",
+                    ArticleId = 3
+                }
+            };
         }
     }
 }
