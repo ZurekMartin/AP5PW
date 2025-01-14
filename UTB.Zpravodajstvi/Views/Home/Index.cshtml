@@ -89,7 +89,7 @@
                     {
                         var mainArticle = Model.Articles.First();
                         <div class="col-12 mb-4">
-                            <div class="card border-0 shadow-sm featured-article" data-category="@mainArticle.CategoryID">
+                            <div class="card border-0 shadow-sm featured-article">
                                 <div class="row g-0">
                                     <div class="col-md-8">
                                         <div class="position-relative h-100">
@@ -107,20 +107,6 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="card-body h-100 d-flex flex-column">
-                                            <div class="mb-3">
-                                                <span class="badge bg-secondary">
-                                                    <i class="fas fa-tag me-1"></i>@mainArticle.Category?.Name
-                                                </span>
-                                                @if (mainArticle.ArticleTags != null)
-                                                {
-                                                    foreach (var articleTag in mainArticle.ArticleTags)
-                                                    {
-                                                        <span class="badge bg-info ms-1">
-                                                            <i class="fas fa-hashtag me-1"></i>@articleTag.Tag?.Name
-                                                        </span>
-                                                    }
-                                                }
-                                            </div>
                                             <h3 class="card-title mb-3">@mainArticle.Title</h3>
                                             <p class="card-text flex-grow-1">@mainArticle.Description</p>
                                             <div class="mt-auto">
@@ -245,74 +231,4 @@
     <link rel="stylesheet" href="~/css/content.css" />
 }
  
-@section Scripts {
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            function filterArticles(categoryId = null, tagId = null) {
-                const articles = document.querySelectorAll('.article-card');
-                const mainArticle = document.querySelector('.featured-article'); 
-
-                if (mainArticle) {
-                    const mainArticleCategoryId = mainArticle.getAttribute('data-category');
-                    const mainArticleTags = mainArticle.getAttribute('data-tags') ? mainArticle.getAttribute('data-tags').split(',') : [];
-                    let showMainArticle = true;
-
-                    if (categoryId && mainArticleCategoryId !== categoryId) {
-                        showMainArticle = false;
-                    }
-
-                    if (tagId && !mainArticleTags.includes(tagId.toString())) {
-                        showMainArticle = false;
-                    }
-
-                    mainArticle.style.display = showMainArticle ? '' : 'none'; 
-                }
-
-                articles.forEach(article => {
-                    const articleCategoryId = article.getAttribute('data-category');
-                    const articleTags = article.getAttribute('data-tags') ? article.getAttribute('data-tags').split(',') : [];
-
-                    let showArticle = true;
-
-                    if (categoryId && articleCategoryId !== categoryId) {
-                        showArticle = false;
-                    }
-
-                    if (tagId && !articleTags.includes(tagId.toString())) {
-                        showArticle = false;
-                    }
-
-                    if (showArticle) {
-                        article.style.display = ''; 
-                    } else {
-                        article.style.display = 'none'; 
-                    }
-                });
-            }
-
-            document.querySelector('.tag-button[data-filter="all"]').addEventListener('click', function () {
-                filterArticles(); 
-            });
-
-            const categoryButtons = document.querySelectorAll('.tag-button[data-category]');
-            categoryButtons.forEach(button => {
-                button.addEventListener('click', function () {
-                    const categoryId = button.getAttribute('data-category');
-                    filterArticles(categoryId);
-                    categoryButtons.forEach(btn => btn.classList.remove('active'));
-                    button.classList.add('active');
-                });
-            });
-
-            const tagButtons = document.querySelectorAll('.tag-button[data-tag]');
-            tagButtons.forEach(button => {
-                button.addEventListener('click', function () {
-                    const tagId = button.getAttribute('data-tag');
-                    filterArticles(null, tagId);
-                    tagButtons.forEach(btn => btn.classList.remove('active'));
-                    button.classList.add('active');
-                });
-            });
-        });
-    </script>
-}
+<script src="~/js/site.js"></script>
