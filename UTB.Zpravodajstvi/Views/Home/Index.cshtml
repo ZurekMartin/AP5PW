@@ -209,59 +209,7 @@
 }
 
 @section Styles {
-    <style>
-        .hero-section {
-            margin-top: -1.5rem;
-        }
-        
-        .overlay-container {
-            position: relative;
-        }
-        
-        .overlay-container::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 50%;
-            background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.7));
-        }
-        
-        .carousel-item img {
-            height: 60vh;
-            object-fit: cover;
-        }
-        
-        .text-shadow {
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-        }
-        
-        .article-card {
-            transition: transform 0.2s;
-        }
-        
-        .article-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .featured-article {
-            transition: transform 0.2s;
-        }
-        
-        .featured-article:hover {
-            transform: translateY(-5px);
-        }
-        
-        .tag-button.active {
-            background-color: var(--bs-primary);
-            color: white;
-        }
-
-        .object-fit-cover {
-            object-fit: cover;
-        }
-    </style>
+    <link rel="stylesheet" href="~/css/content.css" />
 }
 
 @section Scripts {
