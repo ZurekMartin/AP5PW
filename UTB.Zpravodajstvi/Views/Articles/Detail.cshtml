@@ -33,8 +33,17 @@
                     
                     <div class="d-flex align-items-center mb-4">
                         <span class="badge bg-primary me-2">
-                            <i class="fas fa-tag me-1"></i>@Model.CategoryID
+                            <i class="fas fa-tag me-1"></i>@Model.Category?.Name
                         </span>
+                        @if (Model.ArticleTags != null)
+                        {
+                            foreach (var articleTag in Model.ArticleTags)
+                            {
+                                <span class="badge bg-info ms-1">
+                                    <i class="fas fa-hashtag me-1"></i>@articleTag.Tag?.Name
+                                </span>
+                            }
+                        }
                     </div>
 
                     <p class="lead mb-4">@Model.Description</p>

@@ -137,40 +137,52 @@
                     }
 
                     @foreach (var article in Model.Articles.Skip(1))
+{
+    <div class="col-12 col-md-6 col-xl-4 article-card" 
+         data-category="@article.CategoryID" 
+         data-tags="@string.Join(",", article.ArticleTags?.Select(tag => tag.Tag?.Id.ToString()))">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="position-relative">
+                @if (!string.IsNullOrEmpty(article.ImageSrc))
+                {
+                    <img src="@article.ImageSrc" class="card-img-top" alt="@article.Title" 
+                         style="height: 200px; object-fit: cover;">
+                }
+                else
+                {
+                    <div class="bg-light text-center py-5">
+                        <i class="fas fa-newspaper fa-3x text-muted"></i>
+                    </div>
+                }
+                <div class="position-absolute top-0 start-0 m-3">
+                    <span class="badge bg-primary">
+                        <i class="fas fa-tag me-1"></i>@article.Category?.Name
+                    </span>
+                    @if (article.ArticleTags != null)
                     {
-                        <div class="col-12 col-md-6 col-xl-4" data-category="@article.CategoryID">
-                            <div class="card h-100 border-0 shadow-sm article-card">
-                                <div class="position-relative">
-                                    @if (!string.IsNullOrEmpty(article.ImageSrc))
-                                    {
-                                        <img src="@article.ImageSrc" class="card-img-top" alt="@article.Title" 
-                                             style="height: 200px; object-fit: cover;">
-                                    }
-                                    else
-                                    {
-                                        <div class="bg-light text-center py-5">
-                                            <i class="fas fa-newspaper fa-3x text-muted"></i>
-                                        </div>
-                                    }
-                                    <div class="position-absolute top-0 start-0 m-3">
-                                        <span class="badge bg-primary">
-                                            <i class="fas fa-tag me-1"></i>@article.Category?.Name
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="card-body d-flex flex-column">
-                                    <h5 class="card-title mb-3">@article.Title</h5>
-                                    <p class="card-text text-muted flex-grow-1">@article.Description</p>
-                                    <div class="mt-3">
-                                        <a asp-controller="Articles" asp-action="Detail" asp-route-id="@article.Id" 
-                                           class="btn btn-outline-primary w-100">
-                                            <i class="fas fa-arrow-right me-1"></i>Číst více
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        foreach (var articleTag in article.ArticleTags)
+                        {
+                            <span class="badge bg-info ms-1">
+                                <i class="fas fa-hashtag me-1"></i>@articleTag.Tag?.Name
+                            </span>
+                        }
                     }
+                </div>
+            </div>
+            <div class="card-body d-flex flex-column">
+                <h5 class="card-title mb-3">@article.Title</h5>
+                <p class="card-text text-muted flex-grow-1">@article.Description</p>
+                <div class="mt-3">
+                    <a asp-controller="Articles" asp-action="Detail" asp-route-id="@article.Id" 
+                       class="btn btn-outline-primary w-100">
+                        <i class="fas fa-arrow-right me-1"></i>Číst více
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
                 </div>
             </div>
         </div>
@@ -232,33 +244,73 @@
 @section Styles {
     <link rel="stylesheet" href="~/css/content.css" />
 }
-
+ 
 @section Scripts {
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const tagButtons = document.querySelectorAll('.tag-button');
-            const articles = document.querySelectorAll('[data-category]');
+        document.addEventListener('DOMContentLoaded', function () {
+            function filterArticles(categoryId = null, tagId = null) {
+                const articles = document.querySelectorAll('.article-card');
+                const mainArticle = document.querySelector('.featured-article'); 
 
+                if (mainArticle) {
+                    const mainArticleCategoryId = mainArticle.getAttribute('data-category');
+                    const mainArticleTags = mainArticle.getAttribute('data-tags') ? mainArticle.getAttribute('data-tags').split(',') : [];
+                    let showMainArticle = true;
+
+                    if (categoryId && mainArticleCategoryId !== categoryId) {
+                        showMainArticle = false;
+                    }
+
+                    if (tagId && !mainArticleTags.includes(tagId.toString())) {
+                        showMainArticle = false;
+                    }
+
+                    mainArticle.style.display = showMainArticle ? '' : 'none'; 
+                }
+
+                articles.forEach(article => {
+                    const articleCategoryId = article.getAttribute('data-category');
+                    const articleTags = article.getAttribute('data-tags') ? article.getAttribute('data-tags').split(',') : [];
+
+                    let showArticle = true;
+
+                    if (categoryId && articleCategoryId !== categoryId) {
+                        showArticle = false;
+                    }
+
+                    if (tagId && !articleTags.includes(tagId.toString())) {
+                        showArticle = false;
+                    }
+
+                    if (showArticle) {
+                        article.style.display = ''; 
+                    } else {
+                        article.style.display = 'none'; 
+                    }
+                });
+            }
+
+            document.querySelector('.tag-button[data-filter="all"]').addEventListener('click', function () {
+                filterArticles(); 
+            });
+
+            const categoryButtons = document.querySelectorAll('.tag-button[data-category]');
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const categoryId = button.getAttribute('data-category');
+                    filterArticles(categoryId);
+                    categoryButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                });
+            });
+
+            const tagButtons = document.querySelectorAll('.tag-button[data-tag]');
             tagButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const category = button.dataset.category;
-                    const tag = button.dataset.tag;
-                    
+                button.addEventListener('click', function () {
+                    const tagId = button.getAttribute('data-tag');
+                    filterArticles(null, tagId);
                     tagButtons.forEach(btn => btn.classList.remove('active'));
                     button.classList.add('active');
-
-                    articles.forEach(article => {
-                        if (category === 'all' || 
-                            article.dataset.category === category ||
-                            (tag && article.dataset.tags && 
-                             article.dataset.tags.includes(tag))) {
-                            article.style.display = '';
-                            article.classList.add('fade-in');
-                        } else {
-                            article.style.display = 'none';
-                            article.classList.remove('fade-in');
-                        }
-                    });
                 });
             });
         });
