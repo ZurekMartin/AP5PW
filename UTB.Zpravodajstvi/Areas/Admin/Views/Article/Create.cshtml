@@ -1,20 +1,24 @@
 ﻿@model Article
 @{
     ViewData["Title"] = "Nový článek";
+    ViewData["ShowFooter"] = true;
 }
+
 <div class="container-fluid py-4">
     <div class="row justify-content-center">
         <div class="col-12 col-lg-8">
             <div class="card border-0 shadow-sm">
-                <div class="card-header bg-white border-0 py-4">
-                    <h1 class="h3 mb-0 text-center">
-                        <i class="fas fa-newspaper me-2"></i>@ViewData["Title"]
-                    </h1>
+                <div class="card-header bg-primary text-white text-center border-0 py-4">
+                    <div class="display-1 mb-3">
+                        <i class="fas fa-newspaper"></i>
+                    </div>
+                    <h1 class="h3 mb-2">@ViewData["Title"]</h1>
+                    <p class="mb-0 opacity-75">Vytvořte nový článek pro UTB Zpravodajství</p>
                 </div>
                 <div class="card-body p-4">
                     <form asp-action="Create" method="post" enctype="multipart/form-data">
-                        <div class="row">
-                            <div class="col-12 col-md-8 mb-4">
+                        <div class="row g-3">
+                            <div class="col-12 col-md-8">
                                 <div class="form-floating">
                                     <input class="form-control" asp-for="Title" placeholder="Název článku">
                                     <label asp-for="Title">
@@ -23,7 +27,7 @@
                                     <span asp-validation-for="Title" class="text-danger"></span>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-4 mb-4">
+                            <div class="col-12 col-md-4">
                                 <div class="form-floating">
                                     <input class="form-control" asp-for="CategoryID" placeholder="Kategorie">
                                     <label asp-for="CategoryID">
@@ -32,32 +36,32 @@
                                     <span asp-validation-for="CategoryID" class="text-danger"></span>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="mb-4">
-                            <div class="form-floating">
-                                <textarea class="form-control" asp-for="Description" 
-                                          placeholder="Popis článku" style="height: 100px"></textarea>
-                                <label asp-for="Description">
-                                    <i class="fas fa-align-left me-2"></i>Popis článku
-                                </label>
-                                <span asp-validation-for="Description" class="text-danger"></span>
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <textarea class="form-control" asp-for="Description" 
+                                              placeholder="Popis článku" style="height: 120px"></textarea>
+                                    <label asp-for="Description">
+                                        <i class="fas fa-align-left me-2"></i>Popis článku
+                                    </label>
+                                    <span asp-validation-for="Description" class="text-danger"></span>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="mb-4">
-                            <label class="form-label d-block">
-                                <i class="fas fa-image me-2"></i>Obrázek článku
-                            </label>
-                            <div class="card bg-light">
-                                <div class="card-body">
-                                    <input id="File" class="form-control" type="file" asp-for="Image">
-                                    <span asp-validation-for="Image" class="text-danger"></span>
+                            <div class="col-12">
+                                <label class="form-label">
+                                    <i class="fas fa-image me-2"></i>Obrázek článku
+                                </label>
+                                <div class="card bg-light border-0">
+                                    <div class="card-body">
+                                        <input id="File" class="form-control" type="file" asp-for="Image">
+                                        <span asp-validation-for="Image" class="text-danger"></span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="d-flex gap-2 justify-content-end">
+                        <div class="d-flex gap-2 justify-content-end mt-4">
                             <a asp-action="Select" class="btn btn-light">
                                 <i class="fas fa-arrow-left me-2"></i>Zpět
                             </a>
@@ -72,60 +76,7 @@
     </div>
 </div>
 
-<footer class="footer bg-light mt-5 py-4">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 col-md-4 mb-3">
-                    <h5 class="text-primary mb-3">UTB Zpravodajství</h5>
-                    <p class="text-muted">Váš spolehlivý zdroj informací ze světa UTB</p>
-                </div>
-                <div class="col-6 col-md-4 mb-3">
-                    <h5 class="text-dark mb-3">Rychlé odkazy</h5>
-                    <ul class="list-unstyled">
-                        <li class="mb-2">
-                            <a asp-area="" asp-controller="Home" asp-action="Index" 
-                               class="text-muted text-decoration-none">
-                                <i class="fas fa-home me-2"></i>Domů
-                            </a>
-                        </li>
-                        <li class="mb-2">
-                            <a asp-area="" asp-controller="Articles" asp-action="Index" 
-                               class="text-muted text-decoration-none">
-                                <i class="fas fa-newspaper me-2"></i>Články
-                            </a>
-                        </li>
-                        <li class="mb-2">
-                            <a asp-area="" asp-controller="Home" asp-action="Privacy" 
-                               class="text-muted text-decoration-none">
-                                <i class="fas fa-shield-alt me-2"></i>Ochrana soukromí
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-6 col-md-4 mb-3">
-                    <h5 class="text-dark mb-3">Sledujte nás</h5>
-                    <div class="d-flex gap-2">
-                        <a href="https://www.facebook.com/UTBZlin/?locale=cs_CZ" target="_blank" class="btn btn-outline-primary">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                                                <a href="https://www.instagram.com/utbzlin/" target="_blank" class="btn btn-outline-danger">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="https://twitter.com/UTBZlin" target="_blank" class="btn btn-outline-info">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <hr>
-            <div class="text-center text-muted">
-                &copy; @DateTime.Now.Year - UTB Zpravodajství
-            </div>
-        </div>
-    </footer>
-
-@section Scripts
-{
+@section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script src="~/js/validations/FirstLetterCapitalizedCZ.js"></script>
     <script src="~/js/Validations/FileContentValidation.js"></script>

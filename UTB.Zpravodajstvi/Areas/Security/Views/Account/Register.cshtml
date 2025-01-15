@@ -3,44 +3,31 @@
     ViewData["Title"] = "Registrace";
     ViewData["ShowFooter"] = true;
 }
-@section Styles
-{
-    <link rel="stylesheet" href="~/css/auth.css" />
-}
 
-<div class="auth-header">
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <h1 class="display-5 fw-bold">@ViewData["Title"]</h1>
-                <p class="lead">Vytvořte si účet a začněte používat UTB Zpravodajství</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="auth-container">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8 col-lg-6">
-                <div class="auth-card">
-                    <div class="text-center">
-                        <div class="auth-icon">
-                            <i class="fas fa-user-plus"></i>
-                        </div>
+<div class="container-fluid py-4">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-primary text-white text-center border-0 py-4">
+                    <div class="display-1 mb-3">
+                        <i class="fas fa-user-plus"></i>
                     </div>
+                    <h1 class="h3 mb-2">@ViewData["Title"]</h1>
+                    <p class="mb-0 opacity-75">Vytvořte si účet a začněte používat UTB Zpravodajství</p>
+                </div>
 
-                    <form asp-action="Register" method="post" class="form-signup">
+                <div class="card-body p-4">
+                    <form asp-action="Register" method="post">
                         @if (ViewData.ModelState.IsValid == false)
                         {
                             <div asp-validation-summary="All" class="text-danger"></div>
                         }
                         
-                        <div class="row">
+                        <div class="row g-3">
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input asp-for="FirstName" class="form-control" id="first-name" placeholder="Jméno">
-                                    <label for="first-name">
+                                    <input asp-for="FirstName" class="form-control" placeholder="Jméno">
+                                    <label asp-for="FirstName">
                                         <i class="fas fa-user me-2"></i>Jméno
                                     </label>
                                     <span asp-validation-for="FirstName" class="text-danger"></span>
@@ -48,48 +35,56 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input asp-for="LastName" class="form-control" id="last-name" placeholder="Příjmení">
-                                    <label for="last-name">
+                                    <input asp-for="LastName" class="form-control" placeholder="Příjmení">
+                                    <label asp-for="LastName">
                                         <i class="fas fa-user me-2"></i>Příjmení
                                     </label>
                                     <span asp-validation-for="LastName" class="text-danger"></span>
                                 </div>
                             </div>
+                            
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <input asp-for="Username" class="form-control" placeholder="Uživatelské jméno">
+                                    <label asp-for="Username">
+                                        <i class="fas fa-at me-2"></i>Uživatelské jméno
+                                    </label>
+                                    <span asp-validation-for="Username" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <input asp-for="Email" class="form-control" placeholder="E-mailová adresa">
+                                    <label asp-for="Email">
+                                        <i class="fas fa-envelope me-2"></i>E-mailová adresa
+                                    </label>
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <input asp-for="Password" class="form-control" placeholder="Heslo">
+                                    <label asp-for="Password">
+                                        <i class="fas fa-lock me-2"></i>Heslo
+                                    </label>
+                                    <span asp-validation-for="Password" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <input asp-for="RepeatedPassword" class="form-control" placeholder="Zopakujte heslo">
+                                    <label asp-for="RepeatedPassword">
+                                        <i class="fas fa-lock me-2"></i>Zopakujte heslo
+                                    </label>
+                                    <span asp-validation-for="RepeatedPassword" class="text-danger"></span>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="form-floating">
-                            <input asp-for="Username" class="form-control" id="user-name" placeholder="Uživatelské jméno">
-                            <label for="user-name">
-                                <i class="fas fa-at me-2"></i>Uživatelské jméno
-                            </label>
-                            <span asp-validation-for="Username" class="text-danger"></span>
-                        </div>
-
-                        <div class="form-floating">
-                            <input asp-for="Email" class="form-control" id="user-email" placeholder="E-mailová adresa">
-                            <label for="user-email">
-                                <i class="fas fa-envelope me-2"></i>E-mailová adresa
-                            </label>
-                            <span asp-validation-for="Email" class="text-danger"></span>
-                        </div>
-
-                        <div class="form-floating">
-                            <input asp-for="Password" class="form-control" id="user-pass" placeholder="Heslo">
-                            <label for="user-pass">
-                                <i class="fas fa-lock me-2"></i>Heslo
-                            </label>
-                            <span asp-validation-for="Password" class="text-danger"></span>
-                        </div>
-
-                        <div class="form-floating mb-4">
-                            <input asp-for="RepeatedPassword" class="form-control" id="user-repeatpass" placeholder="Zopakujte heslo">
-                            <label for="user-repeatpass">
-                                <i class="fas fa-lock me-2"></i>Zopakujte heslo
-                            </label>
-                            <span asp-validation-for="RepeatedPassword" class="text-danger"></span>
-                        </div>
-
-                        <div class="d-grid gap-3">
+                        <div class="d-grid gap-3 mt-4">
                             <button class="btn btn-primary" type="submit">
                                 <i class="fas fa-user-plus me-2"></i>Registrovat
                             </button>
@@ -107,5 +102,4 @@
 @section Scripts
 {
     <partial name="_ValidationScriptsPartial" />
-    <script src="~/js/validations/registrationValidation.js"></script>
 }

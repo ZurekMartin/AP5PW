@@ -3,154 +3,59 @@
 @model IList<User>
 @{
     ViewData["Title"] = "Správa uživatelů";
+    ViewData["ShowFooter"] = true;
 }
 
 <div class="container-fluid py-4">
     <div class="row mb-4">
         <div class="col-12">
-            <div class="card bg-light border-0 shadow-sm">
-                <div class="card-body">
-                    <h1 class="h3 mb-0">@ViewData["Title"]</h1>
-                    <p class="text-muted mb-0">Přehled všech registrovaných uživatelů</p>
+            <div class="card bg-primary text-white border-0 shadow-sm rounded-4">
+                <div class="card-body p-4">
+                    <h1 class="h3 mb-2">@ViewData["Title"]</h1>
+                    <p class="mb-0 opacity-75">Přehled všech registrovaných uživatelů</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-12">
-            <div class="card border-0 shadow-sm">
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Avatar</th>
-                                    <th>Jméno</th>
-                                    <th>Příjmení</th>
-                                    <th>Email</th>
-                                    <th>Role</th>
-                                    <th>Akce</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var user in Model)
+    <div class="row g-4">
+        @foreach (var user in Model)
+        {
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm hover-lift">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <img src="https://ui-avatars.com/api/?name=@user.UserName&background=random" 
+                                 class="rounded-circle me-3" width="48" height="48" alt="Avatar">
+                            <div>
+                                <h5 class="card-title mb-1">@user.FirstName @user.LastName</h5>
+                                <p class="text-muted small mb-0">@user.Email</p>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <select class="form-select role-select" data-user-id="@user.Id">
+                                @foreach (var role in Enum.GetNames(typeof(Roles)))
                                 {
-                                    <tr>
-                                        <td>@user.Id</td>
-                                        <td>
-                                            <img src="https://ui-avatars.com/api/?name=@user.UserName&background=random" 
-                                                 class="rounded-circle" width="32" height="32" alt="Avatar">
-                                        </td>
-                                        <td>@user.FirstName</td>
-                                        <td>@user.LastName</td>
-                                        <td>@user.Email</td>
-                                        <td>
-                                            <select class="form-select form-select-sm role-select" 
-                                                    data-user-id="@user.Id">
-                                                @foreach (var role in Enum.GetNames(typeof(Roles)))
-                                                {
-                                                    <option value="@role">@role</option>
-                                                }
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <div class="btn-group">
-                                                <a asp-action="Update" asp-route-id="@user.Id" 
-                                                   class="btn btn-outline-primary btn-sm">
-                                                    <i class="fas fa-edit me-1"></i>Upravit
-                                                </a>
-                                                <a asp-action="Delete" asp-route-id="@user.Id" 
-                                                   class="btn btn-outline-danger btn-sm"
-                                                   onclick="return confirm('Opravdu chcete smazat tohoto uživatele?');">
-                                                    <i class="fas fa-trash me-1"></i>Smazat
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    <option value="@role">@role</option>
                                 }
-                            </tbody>
-                        </table>
+                            </select>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <a asp-action="Update" asp-route-id="@user.Id" 
+                               class="btn btn-outline-primary flex-grow-1">
+                                <i class="fas fa-edit me-2"></i>Upravit
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@user.Id" 
+                               class="btn btn-outline-danger flex-grow-1"
+                               onclick="return confirm('Opravdu chcete smazat tohoto uživatele?');">
+                                <i class="fas fa-trash me-2"></i>Smazat
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        }
     </div>
 </div>
-
-<footer class="footer bg-light mt-5 py-4">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 col-md-4 mb-3">
-                    <h5 class="text-primary mb-3">UTB Zpravodajství</h5>
-                    <p class="text-muted">Váš spolehlivý zdroj informací ze světa UTB</p>
-                </div>
-                <div class="col-6 col-md-4 mb-3">
-                    <h5 class="text-dark mb-3">Rychlé odkazy</h5>
-                    <ul class="list-unstyled">
-                        <li class="mb-2">
-                            <a asp-area="" asp-controller="Home" asp-action="Index" 
-                               class="text-muted text-decoration-none">
-                                <i class="fas fa-home me-2"></i>Domů
-                            </a>
-                        </li>
-                        <li class="mb-2">
-                            <a asp-area="" asp-controller="Articles" asp-action="Index" 
-                               class="text-muted text-decoration-none">
-                                <i class="fas fa-newspaper me-2"></i>Články
-                            </a>
-                        </li>
-                        <li class="mb-2">
-                            <a asp-area="" asp-controller="Home" asp-action="Privacy" 
-                               class="text-muted text-decoration-none">
-                                <i class="fas fa-shield-alt me-2"></i>Ochrana soukromí
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-6 col-md-4 mb-3">
-                    <h5 class="text-dark mb-3">Sledujte nás</h5>
-                    <div class="d-flex gap-2">
-                        <a href="https://www.facebook.com/UTBZlin/?locale=cs_CZ" target="_blank" class="btn btn-outline-primary">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                                                <a href="https://www.instagram.com/utbzlin/" target="_blank" class="btn btn-outline-danger">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="https://twitter.com/UTBZlin" target="_blank" class="btn btn-outline-info">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <hr>
-            <div class="text-center text-muted">
-                &copy; @DateTime.Now.Year - UTB Zpravodajství
-            </div>
-        </div>
-    </footer>
-
-@section Scripts {
-    <script>
-        $(document).ready(function() {
-            $('.role-select').change(function() {
-                var userId = $(this).data('user-id');
-                var newRole = $(this).val();
-                
-                $.post('/Admin/User/ChangeRole', { userId: userId, newRole: newRole })
-                    .done(function(response) {
-                        if (response.success) {
-                            toastr.success('Role byla úspěšně změněna');
-                        } else {
-                            toastr.error('Při změně role došlo k chybě');
-                        }
-                    });
-            });
-        });
-    </script>
-}
-
-@section Styles {
-    <link rel="stylesheet" href="~/css/admin.css" />
-} 
