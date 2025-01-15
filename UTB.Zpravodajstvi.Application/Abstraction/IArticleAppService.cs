@@ -14,5 +14,7 @@ namespace UTB.Zpravodajstvi.Application.Abstraction
         void Create(Article article);
         bool Update(Article article);
         bool Delete(int id);
+        IList<Category> GetAllCategories();
+        IList<Tag> GetAllTags();
     }
 }

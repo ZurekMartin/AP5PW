@@ -81,5 +81,13 @@ namespace UTB.Zpravodajstvi.Application.Implementation
             }
             return deleted;
         }
+        public IList<Category> GetAllCategories()
+        {
+            return _zpravodajstviDbContext.Categories.ToList();
+        }
+        public IList<Tag> GetAllTags()
+        {
+            return _zpravodajstviDbContext.Tags.ToList();
+        }
     }
 }

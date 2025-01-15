@@ -1,4 +1,4 @@
-@model IList<Article>
+@model CarouselArticleViewModel
 @{
     ViewData["Title"] = "Články";
     ViewData["ShowFooter"] = true;
@@ -9,62 +9,186 @@
         <div class="col-12">
             <div class="card bg-primary text-white border-0 shadow-sm rounded-4">
                 <div class="card-body p-4">
-                    <h1 class="h3 mb-2">Články</h1>
-                    <p class="mb-0 opacity-75">Přehled všech publikovaných článků</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h1 class="h3 mb-2">@ViewData["Title"]</h1>
+                            <p class="mb-0 opacity-75">Přehled všech publikovaných článků</p>
+                        </div>
+                        <button type="button" class="btn btn-light" id="searchToggle">
+                            <i class="fas fa-search me-2"></i>Vyhledat
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="row g-4">
-        @foreach (var article in Model)
-        {
-            <div class="col-12 col-md-6 col-lg-4">
-                <div class="card h-100 border-0 shadow-sm hover-lift">
-                    <div class="position-relative">
-                        @if (!string.IsNullOrEmpty(article.ImageSrc))
-                        {
-                            <img src="@article.ImageSrc" 
-                                 class="card-img-top rounded-top" 
-                                 alt="@article.Title" 
-                                 style="height: 200px; object-fit: cover;">
-                        }
-                        <div class="position-absolute top-0 start-0 p-3">
-                            <span class="badge bg-primary rounded-pill">
-                                <i class="fas fa-tag me-1"></i>@article.Category?.Name
-                            </span>
+    <div class="row">
+        <!-- Filtrování -->
+        <div class="col-12 col-lg-3 mb-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <div id="searchBox" class="mb-4" style="display: none;">
+                        <h5 class="mb-3">Vyhledávání</h5>
+                        <div class="input-group">
+                            <input type="text" id="searchInput" class="form-control" 
+                                   placeholder="Hledat článek...">
+                            <button class="btn btn-primary" type="button" id="searchButton">
+                                <i class="fas fa-search"></i>
+                            </button>
                         </div>
                     </div>
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">@article.Title</h5>
-                        <p class="card-text text-muted flex-grow-1">
-                            @(article.Description?.Length > 150 
-                                ? article.Description[..147] + "..." 
-                                : article.Description)
-                        </p>
-                        <div class="mt-3">
-                            @if (article.ArticleTags != null)
-                            {
-                                <div class="mb-3">
-                                    @foreach (var articleTag in article.ArticleTags)
-                                    {
-                                        <span class="badge bg-light text-dark me-1">
-                                            <i class="fas fa-hashtag me-1"></i>@articleTag.Tag?.Name
-                                        </span>
-                                    }
-                                </div>
-                            }
-                            <a asp-action="Detail" asp-route-id="@article.Id" 
-                               class="btn btn-outline-primary rounded-pill w-100">
-                                <i class="fas fa-book-reader me-2"></i>Číst více
-                            </a>
-                        </div>
+
+                    <h5 class="mb-3">Kategorie</h5>
+                    <div class="d-flex flex-wrap gap-2 mb-4">
+                        @foreach (var category in Model.Categories)
+                        {
+                            <button class="btn btn-outline-primary category-filter" 
+                                    data-category="@category.Id">
+                                <i class="fas fa-tag me-1"></i>@category.Name
+                            </button>
+                        }
+                    </div>
+
+                    <h5 class="mb-3">Tagy</h5>
+                    <div class="d-flex flex-wrap gap-2">
+                        @foreach (var tag in Model.Tags)
+                        {
+                            <button class="btn btn-outline-info tag-filter" 
+                                    data-tag="@tag.Id">
+                                <i class="fas fa-hashtag me-1"></i>@tag.Name
+                            </button>
+                        }
                     </div>
                 </div>
             </div>
-        }
+        </div>
+
+        <!-- Seznam článků -->
+        <div class="col-12 col-lg-9">
+            <div class="row g-4" id="articlesList">
+                @foreach (var article in Model.Articles)
+                {
+                    <div class="col-12 col-md-6 col-xl-4 article-item" 
+                         data-category="@article.CategoryID"
+                         data-tags="@string.Join(",", article.ArticleTags?.Select(at => at.TagID) ?? new List<int>())">
+                        <div class="card h-100 border-0 shadow-sm hover-lift">
+                            <div class="position-relative">
+                                @if (!string.IsNullOrEmpty(article.ImageSrc))
+                                {
+                                    <img src="@article.ImageSrc" class="card-img-top" 
+                                         alt="@article.Title" style="height: 200px; object-fit: cover;">
+                                }
+                                else
+                                {
+                                    <div class="bg-light text-center py-5">
+                                        <i class="fas fa-image fa-3x text-muted"></i>
+                                    </div>
+                                }
+                            </div>
+                            <div class="card-body p-4">
+                                <h5 class="card-title">@article.Title</h5>
+                                <p class="card-text text-muted">
+                                    @(article.Description?.Length > 150 
+                                        ? article.Description[..147] + "..." 
+                                        : article.Description)
+                                </p>
+                                <div class="mt-3">
+                                    <div class="mb-3">
+                                        <span class="badge bg-primary">
+                                            <i class="fas fa-tag me-1"></i>@article.Category?.Name
+                                        </span>
+                                        @if (article.ArticleTags != null)
+                                        {
+                                            foreach (var articleTag in article.ArticleTags)
+                                            {
+                                                <span class="badge bg-info">
+                                                    <i class="fas fa-hashtag me-1"></i>@articleTag.Tag?.Name
+                                                </span>
+                                            }
+                                        }
+                                    </div>
+                                    <a asp-action="Detail" asp-route-id="@article.Id" 
+                                       class="btn btn-outline-primary rounded-pill w-100">
+                                        <i class="fas fa-book-reader me-2"></i>Číst více
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Toggle vyhledávacího pole
+            $('#searchToggle').click(function() {
+                $('#searchBox').slideToggle();
+            });
+
+            // Vyhledávání
+            $('#searchButton').click(performSearch);
+            $('#searchInput').keypress(function(e) {
+                if (e.which == 13) performSearch();
+            });
+
+            function performSearch() {
+                const searchTerm = $('#searchInput').val().toLowerCase();
+                $('.article-item').each(function() {
+                    const title = $(this).find('.card-title').text().toLowerCase();
+                    const description = $(this).find('.card-text').text().toLowerCase();
+                    if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            }
+
+            // Filtrování podle kategorií
+            $('.category-filter').click(function() {
+                $(this).toggleClass('active');
+                filterArticles();
+            });
+
+            // Filtrování podle tagů
+            $('.tag-filter').click(function() {
+                $(this).toggleClass('active');
+                filterArticles();
+            });
+
+            function filterArticles() {
+                const selectedCategories = $('.category-filter.active').map(function() {
+                    return $(this).data('category');
+                }).get();
+
+                const selectedTags = $('.tag-filter.active').map(function() {
+                    return $(this).data('tag');
+                }).get();
+
+                $('.article-item').each(function() {
+                    const articleCategory = $(this).data('category');
+                    const articleTags = ($(this).data('tags') + '').split(',').map(Number);
+
+                    const matchesCategory = selectedCategories.length === 0 || 
+                                         selectedCategories.includes(articleCategory);
+                    const matchesTags = selectedTags.length === 0 || 
+                                      selectedTags.some(tag => articleTags.includes(tag));
+
+                    if (matchesCategory && matchesTags) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            }
+        });
+    </script>
+}
 
 @section Styles {
     <link rel="stylesheet" href="~/css/content.css" />

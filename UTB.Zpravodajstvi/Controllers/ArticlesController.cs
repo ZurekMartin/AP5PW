@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using UTB.Zpravodajstvi.Application.Abstraction;
+using UTB.Zpravodajstvi.Application.ViewModels;
 
 namespace UTB.Zpravodajstvi.Controllers
 {
@@ -14,8 +15,14 @@ namespace UTB.Zpravodajstvi.Controllers
 
         public IActionResult Index()
         {
-            var articles = _articleAppService.Select();
-            return View(articles);
+            var viewModel = new CarouselArticleViewModel
+            {
+                Articles = _articleAppService.Select(),
+                Categories = _articleAppService.GetAllCategories(),
+                Tags = _articleAppService.GetAllTags()
+            };
+
+            return View(viewModel);
         }
 
         public IActionResult Detail(int id)
