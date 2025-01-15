@@ -12,5 +12,9 @@ namespace UTB.Zpravodajstvi.Domain.Entities
     {
         public required string ImageSrc { get; set; }
         public required string ImageAlt { get; set; }
+        public required int ArticleId { get; set; }
+        
+        [ForeignKey(nameof(ArticleId))]
+        public virtual Article? Article { get; set; }
     }
 }

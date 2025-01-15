@@ -11,20 +11,19 @@ namespace UTB.Zpravodajstvi.Infrastructure.Database.Seeding
     {
         public IList<Tag> GetTags()
         {
-            IList<Tag> tags = new List<Tag>();
-
-            tags.Add(new Tag
+            return new List<Tag>
             {
-                Id = 1,
-                Name = "Zajímavé"
-            });
-            tags.Add(new Tag
-            {
-                Id = 2,
-                Name = "Inovace"
-            });
-
-            return tags;
+                new Tag { Id = 1, Name = "Zajímavé" },
+                new Tag { Id = 2, Name = "Inovace" },
+                new Tag { Id = 3, Name = "Úspěch" },
+                new Tag { Id = 4, Name = "Studentský život" },
+                new Tag { Id = 5, Name = "Výzkum" },
+                new Tag { Id = 6, Name = "Spolupráce" },
+                new Tag { Id = 7, Name = "Akce" },
+                new Tag { Id = 8, Name = "Mezinárodní" },
+                new Tag { Id = 9, Name = "Technologie" },
+                new Tag { Id = 10, Name = "Vzdělávání" }
+            };
         }
     }
 }

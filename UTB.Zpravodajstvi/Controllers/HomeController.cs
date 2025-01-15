@@ -8,20 +8,22 @@ namespace UTB.Zpravodajstvi.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        IHomeService _homeService;
+        private readonly IHomeService _homeService;
 
-        public HomeController(ILogger<HomeController> logger,
-                                  IHomeService homeService)
+        public HomeController(IHomeService homeService)
         {
-            _logger = logger;
             _homeService = homeService;
         }
 
         public IActionResult Index()
         {
-            CarouselArticleViewModel viewModel = _homeService.GetIndexViewModel();
+            var viewModel = _homeService.GetHomeViewModel();
             return View(viewModel);
+        }
+
+        public IActionResult About()
+        {
+            return View();
         }
 
         public IActionResult Privacy()

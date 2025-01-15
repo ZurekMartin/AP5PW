@@ -4,6 +4,7 @@ using UTB.Zpravodajstvi.Application.Abstraction;
 using UTB.Zpravodajstvi.Application.Implementation;
 using Microsoft.AspNetCore.Identity;
 using UTB.Zpravodajstvi.Infrastructure.Identity;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,13 +43,25 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.SlidingExpiration = true;
 });
 
-//registrace slu�eb aplika�n� vrstvy
+//registrace slu�eb aplika�n� vrstvy
 builder.Services.AddScoped<IFileUploadService, FileUploadService>(serviceProvider => new FileUploadService(serviceProvider.GetService<IWebHostEnvironment>().WebRootPath));
 builder.Services.AddScoped<IArticleAppService, ArticleAppService>();
 builder.Services.AddScoped<ICarouselAppService, CarouselAppService>();
 builder.Services.AddScoped<IHomeService, HomeService>();
 builder.Services.AddScoped<IAccountService, AccountIdentityService>();
 builder.Services.AddScoped<ISecurityService, SecurityIdentityService>();
+builder.Services.AddScoped<IUserAppService, UserAppService>();
+
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Information()
+    .WriteTo.Console(
+        outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}")
+    .WriteTo.File("logs/zpravodajstvi-.txt", 
+        rollingInterval: RollingInterval.Day,
+        outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}")
+    .CreateLogger();
+
+builder.Host.UseSerilog();
 
 var app = builder.Build();
 
@@ -76,4 +89,21 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-app.Run();
+if (!Directory.Exists("logs"))
+{
+    Directory.CreateDirectory("logs");
+}
+
+try
+{
+    Log.Information("Aplikace se spouští...");
+    app.Run();
+}
+catch (Exception ex)
+{
+    Log.Fatal(ex, "Aplikace neočekávaně skončila");
+}
+finally
+{
+    Log.CloseAndFlush();
+}

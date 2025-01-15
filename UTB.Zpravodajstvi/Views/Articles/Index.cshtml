@@ -1,0 +1,210 @@
+@model CarouselArticleViewModel
+@{
+    ViewData["Title"] = "Články";
+    ViewData["ShowFooter"] = true;
+}
+
+<div class="container-fluid py-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card bg-primary text-white border-0 shadow-sm rounded-4">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h1 class="h3 mb-2">@ViewData["Title"]</h1>
+                            <p class="mb-0 opacity-75">Přehled všech publikovaných článků</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 col-lg-3 mb-4">
+            <div class="card border-0 shadow-sm sticky-top" style="top: 5rem;">
+                <div class="card-header bg-primary text-white py-3">
+                    <h5 class="mb-0">
+                        <i class="fas fa-filter me-2"></i>Filtry
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div id="searchBox" class="mb-4">
+                        <div class="input-group">
+                            <input type="text" id="searchInput" class="form-control rounded-pill" 
+                                   placeholder="Hledat článek...">
+                            <button class="btn btn-primary rounded-pill ms-2" type="button" id="searchButton">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="d-flex flex-column gap-2">
+                        <button class="tag-button btn btn-outline-primary w-100 rounded-pill active" data-filter="all">
+                            <i class="fas fa-globe me-2"></i>Všechny články
+                        </button>
+                        <h6 class="mt-3 mb-2">Kategorie:</h6>
+                        @foreach (var category in Model.Categories)
+                        {
+                            <button class="tag-button btn btn-outline-primary w-100 rounded-pill" 
+                                    data-category="@category.Id" 
+                                    data-category-name="@category.Name">
+                                <i class="fas fa-tag me-2"></i>@category.Name
+                            </button>
+                        }
+                        <h6 class="mt-3 mb-2">Tagy:</h6>
+                        @foreach (var tag in Model.Tags)
+                        {
+                            <button class="tag-button btn btn-outline-secondary w-100 rounded-pill" 
+                                    data-tag="@tag.Id">
+                                <i class="fas fa-hashtag me-2"></i>@tag.Name
+                            </button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-9">
+            <div class="row g-4">
+                @foreach (var article in Model.Articles)
+                {
+                    <div class="col-12 col-md-6 col-xl-4 article-card" 
+                         data-category="@article.CategoryID" 
+                         data-tags="@string.Join(",", article.ArticleTags?.Select(tag => tag.TagID))">
+                        <div class="card h-100 border-0 shadow-sm hover-lift">
+                            <div class="position-relative">
+                                @if (!string.IsNullOrEmpty(article.ImageSrc))
+                                {
+                                    <img src="@article.ImageSrc" class="card-img-top" 
+                                         alt="@article.Title" style="height: 200px; object-fit: cover;">
+                                }
+                                else
+                                {
+                                    <div class="bg-light text-center py-5">
+                                        <i class="fas fa-image fa-3x text-muted"></i>
+                                    </div>
+                                }
+                            </div>
+                            <div class="card-body p-4">
+                                <h5 class="card-title">@article.Title</h5>
+                                <p class="card-text text-muted">
+                                    @(article.Description?.Length > 150 
+                                        ? article.Description[..147] + "..." 
+                                        : article.Description)
+                                </p>
+                                <div class="mt-3">
+                                    <div class="mb-3">
+                                        <span class="badge bg-primary rounded-pill">
+                                            <i class="fas fa-tag me-1"></i>@article.Category?.Name
+                                        </span>
+                                        @if (article.ArticleTags != null)
+                                        {
+                                            foreach (var articleTag in article.ArticleTags)
+                                            {
+                                                <span class="badge bg-info rounded-pill">
+                                                    <i class="fas fa-hashtag me-1"></i>@articleTag.Tag?.Name
+                                                </span>
+                                            }
+                                        }
+                                    </div>
+                                    <a asp-action="Detail" asp-route-id="@article.Id" 
+                                       class="btn btn-outline-primary rounded-pill w-100">
+                                        <i class="fas fa-book-reader me-2"></i>Číst více
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Toggle vyhledávacího pole
+            $('#searchToggle').click(function() {
+                $('#searchBox').slideToggle();
+            });
+
+            // Vyhledávání
+            $('#searchButton').click(performSearch);
+            $('#searchInput').keypress(function(e) {
+                if (e.which == 13) performSearch();
+            });
+
+            function performSearch() {
+                const searchTerm = $('#searchInput').val().toLowerCase();
+                $('.article-item').each(function() {
+                    const title = $(this).find('.card-title').text().toLowerCase();
+                    const description = $(this).find('.card-text').text().toLowerCase();
+                    if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            }
+
+            // Tlačítko "Všechny články"
+            $('.filter-all').click(function() {
+                $('.category-filter, .tag-filter').removeClass('active');
+                $(this).addClass('active');
+                $('.article-item').show();
+            });
+
+            // Filtrování podle kategorií
+            $('.category-filter').click(function() {
+                $('.filter-all').removeClass('active');
+                $(this).toggleClass('active');
+                filterArticles();
+            });
+
+            // Filtrování podle tagů
+            $('.tag-filter').click(function() {
+                $('.filter-all').removeClass('active');
+                $(this).toggleClass('active');
+                filterArticles();
+            });
+
+            function filterArticles() {
+                const selectedCategories = $('.category-filter.active').map(function() {
+                    return $(this).data('category');
+                }).get();
+
+                const selectedTags = $('.tag-filter.active').map(function() {
+                    return $(this).data('tag');
+                }).get();
+
+                if (selectedCategories.length === 0 && selectedTags.length === 0) {
+                    $('.filter-all').addClass('active');
+                    $('.article-item').show();
+                    return;
+                }
+
+                $('.article-item').each(function() {
+                    const articleCategory = $(this).data('category');
+                    const articleTags = ($(this).data('tags') + '').split(',').map(Number);
+
+                    const matchesCategory = selectedCategories.length === 0 || 
+                                         selectedCategories.includes(articleCategory);
+                    const matchesTags = selectedTags.length === 0 || 
+                                      selectedTags.some(tag => articleTags.includes(tag));
+
+                    if (matchesCategory && matchesTags) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            }
+        });
+    </script>
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/content.css" />
+} 

@@ -1,45 +1,58 @@
 ﻿@model LoginViewModel
 @{
-    ViewData["Title"] = "Login";
+    ViewData["Title"] = "Přihlášení";
+    ViewData["ShowFooter"] = true;
 }
-@section Styles
-{
-    <link rel="stylesheet" href="~/css/login.css" />
-}
-<div id="logreg-forms">
-    <form asp-action="Login" method="post" class="form-signin">
-        <br />
-        <h1 class="h3 mb-3 font-weight-normal" style="text-align: center"> Login</h1>
-        <div class="social-login">
-            <button class="btn facebook-btn social-btn" type="button"><span><i class="fab fa-facebook-f"></i> Sign in with Facebook</span> </button>
-            <button class="btn google-btn social-btn" type="button"><span><i class="fab fa-google-plus-g"></i> Sign in with Google</span> </button>
+
+<div class="container-fluid py-4">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-primary text-white text-center border-0 py-4">
+                    <div class="display-1 mb-3">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <h1 class="h3 mb-2">@ViewData["Title"]</h1>
+                    <p class="mb-0 opacity-75">Vítejte zpět! Přihlaste se do svého účtu.</p>
+                </div>
+                
+                <div class="card-body p-4">
+                    <form asp-action="Login" method="post">
+                        @if (Model?.LoginFailed == true)
+                        {
+                            <div class="alert alert-danger">
+                                <i class="fas fa-exclamation-circle me-2"></i>
+                                <span>Přihlášení se nezdařilo!</span>
+                            </div>
+                        }
+                        
+                        <div class="form-floating mb-3">
+                            <input asp-for="Username" class="form-control" placeholder="Uživatelské jméno">
+                            <label asp-for="Username">
+                                <i class="fas fa-user me-2"></i>Uživatelské jméno
+                            </label>
+                            <span asp-validation-for="Username" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-floating mb-4">
+                            <input asp-for="Password" class="form-control" placeholder="Heslo">
+                            <label asp-for="Password">
+                                <i class="fas fa-lock me-2"></i>Heslo
+                            </label>
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-grid gap-3">
+                            <button class="btn btn-primary rounded-pill" type="submit">
+                                <i class="fas fa-sign-in-alt me-2"></i>Přihlásit se
+                            </button>
+                            <a asp-action="Register" class="btn btn-outline-secondary rounded-pill">
+                                <i class="fas fa-user-plus me-2"></i>Ještě nejste registrováni?
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-        <br />
-        <p style="text-align:center">OR</p>
-        <hr>
-        @{
-            if (Model?.LoginFailed == true)
-            {
-                <div class="text-danger">Login Failed!</div>
-            }
-        }
-        <div asp-validation-summary="All" class="text-danger"></div>
-        <input asp-for="Username" type="text" id="inputUsername" class="form-control" placeholder="Usename" autofocus="">
-        <span asp-validation-for="Username" class="text-danger"></span>
-        <input asp-for="Password" type="password" id="inputPassword" class="form-control" placeholder="Password">
-        <span asp-validation-for="Password" class="text-danger"></span>
-        <br />
-        <div class="text-center">
-            <button class="btn btn-success btn-block" type="submit"><i class="fas fa-sign-in-alt"></i> Sign in</button>
-        </div>
-        <br />
-        <br />
-        <hr>
-        <!-- <p>Don't have an account!</p>  -->
-        <a asp-action="Register" class="btn btn-primary btn-block text-white" type="button" id="btn-signup"><i class="fas fa-user-plus"></i> Sign up New Account</a>
-    </form>
+    </div>
 </div>
-@section Scripts
-{
-    <partial name="_ValidationScriptsPartial" />
-}

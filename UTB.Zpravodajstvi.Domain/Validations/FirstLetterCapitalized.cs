@@ -32,12 +32,12 @@ namespace UTB.Zpravodajstvi.Domain.Validations
                 }
                 else
                 {
-                    return new ValidationResult($"The {validationContext.MemberName} field does not contain the first capital letter.");
+                    return new ValidationResult($"Pole {validationContext.MemberName} musí začínat velkým písmenem.");
                 }
             }
             else
             {
-                throw new NotImplementedException($"The {nameof(FirstLetterCapitalizedCZAttribute)} is not implemented for the type: {value.GetType()}");
+                throw new NotImplementedException($"Pole {nameof(FirstLetterCapitalizedCZAttribute)} nepodporuje typ: {value.GetType()}");
             }
         }
 
@@ -45,7 +45,7 @@ namespace UTB.Zpravodajstvi.Domain.Validations
         {
             if (context.Attributes.ContainsKey("data-val") == false)
                 context.Attributes.Add("data-val", "true");
-            context.Attributes.Add("data-val-firstlettercapcz", $"The {context.ModelMetadata.Name} field does not contain the first capital letter.");
+            context.Attributes.Add("data-val-firstlettercapcz", $"Pole {context.ModelMetadata.Name} musí začínat velkým písmenem.");
         }
     }
 }

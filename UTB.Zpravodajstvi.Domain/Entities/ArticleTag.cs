@@ -12,7 +12,10 @@ namespace UTB.Zpravodajstvi.Domain.Entities
     {
         [ForeignKey(nameof(ArticleID))]
         public int ArticleID { get; set; }
+        public Article? Article { get; set; }
+
         [ForeignKey(nameof(TagID))]
         public int TagID { get; set; }
+        public Tag? Tag { get; set; }
     }
 }

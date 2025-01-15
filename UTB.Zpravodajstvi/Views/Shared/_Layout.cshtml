@@ -1,74 +1,167 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="cs">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - UTB.Zpravodajstvi</title>
+    <title>@ViewData["Title"] - UTB Zpravodajství</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="~/css/content.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/UTB.Zpravodajstvi.styles.css" asp-append-version="true" />
     @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm fixed-top">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">UTB.Zpravodajstvi</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                <a class="navbar-brand d-flex align-items-center" asp-area="" asp-controller="Home" asp-action="Index">
+                    <span class="fw-bold text-primary">UTB Zpravodajství</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                <div class="navbar-collapse collapse">
+                    <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link px-3 @(ViewContext.RouteData.Values["Controller"].ToString() == "Home" && 
+                                             ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")" 
+                               asp-area="" asp-controller="Home" asp-action="Index">
+                                <i class="fas fa-home me-1"></i>Domů
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link px-3 @(ViewContext.RouteData.Values["Controller"].ToString() == "Articles" ? "active" : "")" 
+                               asp-area="" asp-controller="Articles" asp-action="Index">
+                                <i class="fas fa-newspaper me-1"></i>Články
+                            </a>
                         </li>
-                        @if (User.Identity.IsAuthenticated == true && (User.IsInRole(nameof(Roles.Admin)) || User.IsInRole(nameof(Roles.Writer))))
+                        @if (User.Identity.IsAuthenticated && (User.IsInRole(nameof(Roles.Admin)) || User.IsInRole(nameof(Roles.Writer))))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="Admin" asp-controller="Article" asp-action="Select">Articles</a>
+                                <a class="nav-link px-3 @(ViewContext.RouteData.Values["Controller"].ToString() == "Article" ? "active" : "")" 
+                                   asp-area="Admin" asp-controller="Article" asp-action="Select">
+                                    <i class="fas fa-edit me-1"></i>Správa článků
+                                </a>
+                            </li>
+                        }
+                        @if (User.Identity.IsAuthenticated && User.IsInRole(nameof(Roles.Admin)))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link px-3 @(ViewContext.RouteData.Values["Controller"].ToString() == "User" ? "active" : "")" 
+                                   asp-area="Admin" asp-controller="User" asp-action="Select">
+                                    <i class="fas fa-users me-1"></i>Správa uživatelů
+                                </a>
                             </li>
                         }
                     </ul>
-                    @{
-                        @if (User.Identity.IsAuthenticated == false)
-                        {
-                            <ul class="navbar-nav navbar-right">
-                                <li class="nav-item"><a class="nav-link text-dark" asp-area="Security" asp-controller="Account" asp-action="Register"><i class="bi bi-person-plus"></i> Register</a></li>
-                                <li class="nav-item"><a class="nav-link text-dark" asp-area="Security" asp-controller="Account" asp-action="Login"><i class="bi bi-lock"></i> Login</a></li>
-                            </ul>
-                        }
-                        else
-                        {
-                            <ul class="nav navbar-nav navbar-right">
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person"></i> Logged as @User.Identity.Name</a>
-                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li><a class="dropdown-item text-dark" asp-area="Security" asp-controller="Account" asp-action="Logout"><i class="bi bi-box-arrow-right me-1"></i> Logout</a></li>
-                                    </ul>
+                    
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <div class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" 
+                               id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                                <img src="https://ui-avatars.com/api/?name=@User.Identity.Name&background=random" 
+                                     class="rounded-circle me-2" width="32" height="32" alt="Avatar">
+                                @User.Identity.Name
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                                <li>
+                                    <a class="dropdown-item text-danger" asp-area="Security" 
+                                       asp-controller="Account" asp-action="Logout">
+                                        <i class="fas fa-sign-out-alt me-2"></i>Odhlásit se
+                                    </a>
                                 </li>
                             </ul>
-                        }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="d-flex gap-2">
+                            <a class="btn btn-outline-primary rounded-pill" asp-area="Security" 
+                               asp-controller="Account" asp-action="Login">
+                                <i class="fas fa-sign-in-alt me-1"></i>Přihlásit se
+                            </a>
+                            <a class="btn btn-primary rounded-pill" asp-area="Security" 
+                               asp-controller="Account" asp-action="Register">
+                                <i class="fas fa-user-plus me-1"></i>Registrace
+                            </a>
+                        </div>
                     }
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
+
+    <div class="content-wrapper">
+        <main role="main">
             @RenderBody()
         </main>
     </div>
-
-    <footer class="border-top footer text-muted">
+@if (ViewData["ShowFooter"] != null && (bool)ViewData["ShowFooter"])
+{
+    <footer class="footer bg-light mt-5 py-4">
         <div class="container">
-            &copy; 2024 - UTB.Zpravodajstvi - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <div class="row">
+                <div class="col-12 col-md-4 mb-3">
+                    <h5 class="text-primary mb-3">UTB Zpravodajství</h5>
+                    <p class="text-muted">Váš spolehlivý zdroj informací ze světa UTB</p>
+                </div>
+                <div class="col-6 col-md-4 mb-3">
+                    <h5 class="text-dark mb-3">Rychlé odkazy</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <a asp-area="" asp-controller="Home" asp-action="Index" 
+                               class="text-muted text-decoration-none">
+                                <i class="fas fa-home me-2"></i>Domů
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a asp-area="" asp-controller="Articles" asp-action="Index" 
+                               class="text-muted text-decoration-none">
+                                <i class="fas fa-newspaper me-2"></i>Články
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a asp-area="" asp-controller="Home" asp-action="About" 
+                               class="text-muted text-decoration-none">
+                                <i class="fas fa-university me-2"></i>O UTB
+                            </a>
+                        </li>
+                        <li class="mb-2">
+                            <a asp-area="" asp-controller="Home" asp-action="Privacy" 
+                               class="text-muted text-decoration-none">
+                                <i class="fas fa-shield-alt me-2"></i>Ochrana soukromí
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-6 col-md-4 mb-3">
+                    <h5 class="text-dark mb-3">Sledujte nás</h5>
+                    <div class="d-flex gap-2">
+                        <a href="https://www.facebook.com/UTBZlin/?locale=cs_CZ" target="_blank" class="btn btn-outline-primary">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                                                <a href="https://www.instagram.com/utbzlin/" target="_blank" class="btn btn-outline-danger">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://twitter.com/UTBZlin" target="_blank" class="btn btn-outline-info">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="text-center text-muted">
+                &copy; @DateTime.Now.Year - UTB Zpravodajství - 
+                <a href="https://www.github.com/zurekmartin" target="_blank" class="text-muted text-decoration-none">
+                    Made by Zurek Martin
+                </a>
+            </div>
         </div>
     </footer>
+}
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

@@ -1,0 +1,53 @@
+@using UTB.Zpravodajstvi.Infrastructure.Identity
+@using UTB.Zpravodajstvi.Infrastructure.Identity.Enums
+@model IList<User>
+@{
+    ViewData["Title"] = "Správa uživatelů";
+    ViewData["ShowFooter"] = true;
+}
+
+<div class="container-fluid py-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card bg-primary text-white border-0 shadow-sm rounded-4">
+                <div class="card-body p-4">
+                    <h1 class="h3 mb-2">@ViewData["Title"]</h1>
+                    <p class="mb-0 opacity-75">Přehled všech registrovaných uživatelů</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        @foreach (var user in Model)
+        {
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm hover-lift">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <img src="https://ui-avatars.com/api/?name=@user.UserName&background=random" 
+                                 class="rounded-circle me-3" width="48" height="48" alt="Avatar">
+                            <div>
+                                <h5 class="card-title mb-1">@user.FirstName @user.LastName</h5>
+                                <p class="text-muted small mb-0">@($"@{user.UserName}")</p>
+                                <p class="text-muted small mb-0">@user.Email</p>
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <a asp-action="Update" asp-route-id="@user.Id" 
+                               class="btn btn-outline-primary flex-grow-1 rounded-pill">
+                                <i class="fas fa-edit me-2"></i>Upravit
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@user.Id" 
+                               class="btn btn-outline-danger flex-grow-1 rounded-pill"
+                               onclick="return confirm('Opravdu chcete smazat tohoto uživatele?');">
+                                <i class="fas fa-trash me-2"></i>Smazat
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

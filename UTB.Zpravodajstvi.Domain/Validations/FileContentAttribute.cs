@@ -31,19 +31,19 @@ namespace UTB.Zpravodajstvi.Domain.Validations
                 }
                 else
                 {
-                    return new ValidationResult($"The {validationContext.MemberName} field is not {contentType}.");
+                    return new ValidationResult($"Pole {validationContext.MemberName} není typu {contentType}.");
                 }
             }
             else
             {
-                throw new NotImplementedException($"The {nameof(FileContentAttribute)} is not implemented for the type: {value.GetType()}");
+                throw new NotImplementedException($"Pole {nameof(FileContentAttribute)} nepodporuje typ: {value.GetType()}");
             }
         }
         public void AddValidation(ClientModelValidationContext context)
         {
             if (context.Attributes.ContainsKey("data-val") == false)
                 context.Attributes.Add("data-val", "true");
-            context.Attributes.Add("data-val-filecontent", $"The {context.ModelMetadata.Name} field is not {contentType}.");
+            context.Attributes.Add("data-val-filecontent", $"Pole {context.ModelMetadata.Name} není typu {contentType}.");
             context.Attributes.Add("data-val-filecontent-type", contentType);
         }
     }
