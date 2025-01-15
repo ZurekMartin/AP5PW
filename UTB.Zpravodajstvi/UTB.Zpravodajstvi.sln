@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UTB.Zpravodajstvi.Infrastru
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UTB.Zpravodajstvi.Application", "..\UTB.Zpravodajstvi.Application\UTB.Zpravodajstvi.Application.csproj", "{FF22334B-6A4B-4996-AB21-612402A4B43E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UTB.Zpravodajstvi.Tests", "..\UTB.Zpravodajstvi.Tests\UTB.Zpravodajstvi.Tests.csproj", "{075AEF3F-248C-408D-A9C6-5D58F8D80CD6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{FF22334B-6A4B-4996-AB21-612402A4B43E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF22334B-6A4B-4996-AB21-612402A4B43E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF22334B-6A4B-4996-AB21-612402A4B43E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{075AEF3F-248C-408D-A9C6-5D58F8D80CD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{075AEF3F-248C-408D-A9C6-5D58F8D80CD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{075AEF3F-248C-408D-A9C6-5D58F8D80CD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{075AEF3F-248C-408D-A9C6-5D58F8D80CD6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
