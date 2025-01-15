@@ -3,13 +3,24 @@
 
 // Write your JavaScript code.
 document.addEventListener('DOMContentLoaded', function () {
-    // Vyhledávání
     const searchInput = document.getElementById('searchInput');
     const searchButton = document.getElementById('searchButton');
+
+    function resetFilters() {
+        document.querySelectorAll('.tag-button').forEach(button => {
+            button.classList.remove('active');
+        });
+        const allButton = document.querySelector('.tag-button[data-filter="all"]');
+        if (allButton) {
+            allButton.classList.add('active');
+        }
+    }
 
     function performSearch() {
         const searchTerm = searchInput.value.toLowerCase();
         const articles = document.querySelectorAll('.article-card');
+        
+        resetFilters();
         
         articles.forEach(article => {
             const title = article.querySelector('.card-title').textContent.toLowerCase();
@@ -32,12 +43,10 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Původní kód pro filtrování
     function filterArticles(categoryId = null, tagId = null) {
         const articles = document.querySelectorAll('.article-card');
         const mainArticle = document.querySelector('.featured-article');
 
-        // Reset vyhledávání
         if (searchInput) {
             searchInput.value = '';
         }
@@ -55,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 showMainArticle = false;
             }
 
-            mainArticle.style.display = showMainArticle ? '' : 'none'; 
+            mainArticle.style.display = showMainArticle ? '' : 'none';
         }
 
         articles.forEach(article => {
@@ -72,46 +81,47 @@ document.addEventListener('DOMContentLoaded', function () {
                 showArticle = false;
             }
 
-            if (showArticle) {
-                article.style.display = ''; 
-            } else {
-                article.style.display = 'none'; 
-            }
+            article.style.display = showArticle ? '' : 'none';
         });
     }
 
-    document.querySelector('.tag-button[data-filter="all"]').addEventListener('click', function () {
-        filterArticles(); 
+    document.querySelector('.tag-button[data-filter="all"]')?.addEventListener('click', function () {
+        resetFilters();
+        this.classList.add('active');
+        filterArticles();
     });
 
-    const categoryButtons = document.querySelectorAll('.tag-button[data-category]');
-    categoryButtons.forEach(button => {
+    document.querySelectorAll('.tag-button[data-category]').forEach(button => {
         button.addEventListener('click', function () {
-            const categoryId = button.getAttribute('data-category');
+            const categoryId = this.getAttribute('data-category');
             
-            const activeTagButton = document.querySelector('.tag-button.active[data-tag]');
-            if (activeTagButton) {
-                activeTagButton.classList.remove('active');
+            if (searchInput) {
+                searchInput.value = '';
             }
-
+            
+            document.querySelectorAll('.tag-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            this.classList.add('active');
             filterArticles(categoryId);
-            categoryButtons.forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
         });
     });
 
-    const tagButtons = document.querySelectorAll('.tag-button[data-tag]');
-    tagButtons.forEach(button => {
+    document.querySelectorAll('.tag-button[data-tag]').forEach(button => {
         button.addEventListener('click', function () {
-            const tagId = button.getAttribute('data-tag');
+            const tagId = this.getAttribute('data-tag');
             
-            const activeCategoryButton = document.querySelector('.tag-button.active[data-category]');
-            if (activeCategoryButton) {
-                activeCategoryButton.classList.remove('active');
+            if (searchInput) {
+                searchInput.value = '';
             }
+            
+            document.querySelectorAll('.tag-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            this.classList.add('active');
             filterArticles(null, tagId);
-            tagButtons.forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
         });
     });
 });
