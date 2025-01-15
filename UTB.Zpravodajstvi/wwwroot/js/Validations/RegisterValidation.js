@@ -37,7 +37,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 number: /[0-9]/.test(value)
             };
 
-            // Aktualizace seznamu požadavků
             requirementsList.innerHTML = `
                 <li class="${requirements.length ? 'text-success' : 'text-danger'}">
                     <i class="fas ${requirements.length ? 'fa-check' : 'fa-times'} me-2"></i>
@@ -57,7 +56,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 </li>
             `;
 
-            // Aktualizace indikátoru síly hesla
             const metRequirements = Object.values(requirements).filter(Boolean).length;
             let strength = 'Slabé';
             let strengthClass = 'text-danger';
