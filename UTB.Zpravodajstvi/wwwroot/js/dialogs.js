@@ -1,3 +1,3 @@
 ﻿function ConfirmDelete() {
-    return confirm("Are you sure?");
+    return confirm("Opravdu chcete položku smazat?");
 }

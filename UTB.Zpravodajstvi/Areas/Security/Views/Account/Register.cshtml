@@ -60,17 +60,19 @@
 
                             <div class="col-12">
                                 <div class="form-floating">
-                                    <input asp-for="Password" class="form-control" placeholder="Heslo">
+                                    <input asp-for="Password" class="form-control" placeholder="Heslo" type="password">
                                     <label asp-for="Password">
                                         <i class="fas fa-lock me-2"></i>Heslo
                                     </label>
                                     <span asp-validation-for="Password" class="text-danger"></span>
                                 </div>
+                                <div id="password-strength" class="small mt-2"></div>
+                                <ul id="password-requirements" class="small list-unstyled mt-2"></ul>
                             </div>
 
                             <div class="col-12">
                                 <div class="form-floating">
-                                    <input asp-for="RepeatedPassword" class="form-control" placeholder="Zopakujte heslo">
+                                    <input asp-for="RepeatedPassword" class="form-control" placeholder="Zopakujte heslo" id="user-repeatpass">
                                     <label asp-for="RepeatedPassword">
                                         <i class="fas fa-lock me-2"></i>Zopakujte heslo
                                     </label>

@@ -1,0 +1,119 @@
+@{
+    ViewData["Title"] = "O UTB";
+    ViewData["ShowFooter"] = true;
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <h1 class="display-4 mb-4">@ViewData["Title"]</h1>
+
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body">
+                    <h2 class="h4 mb-3">Univerzita Tomáše Bati ve Zlíně</h2>
+                    <p>Univerzita Tomáše Bati ve Zlíně (UTB) je dynamická a moderní vysoká škola, která poskytuje vzdělání více než 8000 studentům v širokém spektru studijních programů. Založena v roce 2001, nese jméno světoznámého podnikatele a vizionáře Tomáše Bati.</p>
+                </div>
+            </div>
+
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body">
+                    <h2 class="h4 mb-3">Fakulty</h2>
+                    <ul class="list-unstyled">
+                        <li class="mb-3">
+                            <i class="fas fa-graduation-cap text-primary me-2"></i>
+                            <strong>Fakulta technologická (FT)</strong>
+                            <p class="ms-4 mb-2">Nejstarší fakulta UTB zaměřená na technologické a inženýrské obory.</p>
+                        </li>
+                        <li class="mb-3">
+                            <i class="fas fa-graduation-cap text-primary me-2"></i>
+                            <strong>Fakulta managementu a ekonomiky (FAME)</strong>
+                            <p class="ms-4 mb-2">Poskytuje vzdělání v oblasti ekonomiky, managementu a marketingu.</p>
+                        </li>
+                        <li class="mb-3">
+                            <i class="fas fa-graduation-cap text-primary me-2"></i>
+                            <strong>Fakulta multimediálních komunikací (FMK)</strong>
+                            <p class="ms-4 mb-2">Kreativní fakulta zaměřená na design, marketing a audiovizuální tvorbu.</p>
+                        </li>
+                        <li class="mb-3">
+                            <i class="fas fa-graduation-cap text-primary me-2"></i>
+                            <strong>Fakulta aplikované informatiky (FAI)</strong>
+                            <p class="ms-4 mb-2">Specializuje se na informatiku, automatizaci a bezpečnostní technologie.</p>
+                        </li>
+                        <li class="mb-3">
+                            <i class="fas fa-graduation-cap text-primary me-2"></i>
+                            <strong>Fakulta humanitních studií (FHS)</strong>
+                            <p class="ms-4 mb-2">Zaměřuje se na pedagogiku, filologii a zdravotnické obory.</p>
+                        </li>
+                        <li class="mb-3">
+                            <i class="fas fa-graduation-cap text-primary me-2"></i>
+                            <strong>Fakulta logistiky a krizového řízení (FLKŘ)</strong>
+                            <p class="ms-4 mb-2">Poskytuje vzdělání v oblasti logistiky a krizového managementu.</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body">
+                    <h2 class="h4 mb-3">Seznamte se s UTB</h2>
+                    <div class="ratio ratio-16x9">
+                        <iframe src="https://www.youtube.com/embed/LTK9QOrM4bY?si=WN1c0MPh3HFyX9PI" 
+                                title="Seznamte se s UTB" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body">
+                    <h2 class="h4 mb-3">Výzkum a vývoj</h2>
+                    <p>UTB je významným centrem výzkumu a vývoje v regionu. Univerzita disponuje moderními výzkumnými centry:</p>
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <i class="fas fa-flask text-success me-2"></i>
+                            Centrum polymerních systémů
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-flask text-success me-2"></i>
+                            Centrum bezpečnostních, informačních a pokročilých technologií
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-flask text-success me-2"></i>
+                            Centrum transferu technologií
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h2 class="h4 mb-3">Kontaktní informace</h2>
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <i class="fas fa-map-marker-alt text-primary me-2"></i>
+                            nám. T. G. Masaryka 5555, 760 01 Zlín
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-phone text-primary me-2"></i>
+                            +420 576 038 111
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-envelope text-primary me-2"></i>
+                            email@utb.cz
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-globe text-primary me-2"></i>
+                            <a href="https://www.utb.cz" target="_blank" class="text-decoration-none">www.utb.cz</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/content.css"/>
+}

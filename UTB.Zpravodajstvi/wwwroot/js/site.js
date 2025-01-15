@@ -2,6 +2,13 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
+let searchTimeout;
+
+function debounceSearch(func, wait) {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(func, wait);
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     const searchInput = document.getElementById('searchInput');
     const searchButton = document.getElementById('searchButton');
@@ -124,4 +131,10 @@ document.addEventListener('DOMContentLoaded', function () {
             filterArticles(null, tagId);
         });
     });
+
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            debounceSearch(() => performSearch(), 300);
+        });
+    }
 });

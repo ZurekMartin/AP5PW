@@ -16,21 +16,21 @@ namespace UTB.Zpravodajstvi.Infrastructure.Database.Seeding
                 new Carousel
                 {
                     Id = 1,
-                    ImageSrc = "/img/img1.jpg",
+                    ImageSrc = "/img/carousel/img1.jpg",
                     ImageAlt = "UTB získala prestižní ocenění za výzkum",
                     ArticleId = 1
                 },
                 new Carousel
                 {
                     Id = 2,
-                    ImageSrc = "/img/img2.jpg",
+                    ImageSrc = "/img/carousel/img2.jpg",
                     ImageAlt = "Inovativní projekty studentů designu",
                     ArticleId = 2
                 },
                 new Carousel
                 {
                     Id = 3,
-                    ImageSrc = "/img/img1.jpg",
+                    ImageSrc = "/img/carousel/img3.jpg",
                     ImageAlt = "Nové technologické centrum na FAI",
                     ArticleId = 3
                 }

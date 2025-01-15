@@ -21,6 +21,11 @@ namespace UTB.Zpravodajstvi.Controllers
             return View(viewModel);
         }
 
+        public IActionResult About()
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();
