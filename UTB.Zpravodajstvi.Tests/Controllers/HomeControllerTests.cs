@@ -7,6 +7,7 @@ using UTB.Zpravodajstvi.Domain.Entities;
 using UTB.Zpravodajstvi.Infrastructure.Database;
 using UTB.Zpravodajstvi.Tests.Database;
 using Xunit;
+using Microsoft.Extensions.Logging;
 
 namespace UTB.Zpravodajstvi.Tests.Controllers
 {
@@ -14,23 +15,26 @@ namespace UTB.Zpravodajstvi.Tests.Controllers
     {
         private readonly HomeController _controller;
         private readonly Mock<IHomeService> _mockHomeService;
+        private readonly Mock<ILogger<HomeController>> _mockLogger;
         private readonly ZpravodajstviDbContext _dbContext;
 
         public HomeControllerTests()
         {
             _dbContext = TestDatabase.CreateDbContext();
             _mockHomeService = new Mock<IHomeService>();
-            _controller = new HomeController(_mockHomeService.Object);
+            _mockLogger = new Mock<ILogger<HomeController>>();
+            _controller = new HomeController(_mockHomeService.Object, _mockLogger.Object);
         }
 
         [Fact]
-        public void Index_ReturnsViewWithHomeViewModel()
+        public void Index_ReturnsViewWithCarouselArticleViewModel()
         {
             // Arrange
             var viewModel = new CarouselArticleViewModel
             {
                 Articles = new List<Article> { new Article { Id = 1, Title = "Test" } },
-                Categories = new List<Category> { new Category { Id = 1, Name = "Test" } }
+                Categories = new List<Category> { new Category { Id = 1, Name = "Test" } },
+                Tags = new List<Tag> { new Tag { Id = 1, Name = "Test" } }
             };
             _mockHomeService.Setup(s => s.GetHomeViewModel()).Returns(viewModel);
 
@@ -42,6 +46,7 @@ namespace UTB.Zpravodajstvi.Tests.Controllers
             var model = Assert.IsType<CarouselArticleViewModel>(viewResult.Model);
             Assert.NotNull(model.Articles);
             Assert.NotNull(model.Categories);
+            Assert.NotNull(model.Tags);
         }
 
         [Fact]

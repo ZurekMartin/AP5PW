@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Moq;
 using UTB.Zpravodajstvi.Application.Abstraction;
 using UTB.Zpravodajstvi.Areas.Admin.Controllers;
@@ -19,7 +20,7 @@ namespace UTB.Zpravodajstvi.Tests.Controllers
         {
             _dbContext = TestDatabase.CreateDbContext();
             _mockUserService = new Mock<IUserAppService>();
-            _controller = new UserController(_mockUserService.Object);
+            _controller = new UserController(_mockUserService.Object, Mock.Of<ILogger<UserController>>());
         }
 
         [Fact]
@@ -27,10 +28,10 @@ namespace UTB.Zpravodajstvi.Tests.Controllers
         {
             // Arrange
             var users = new List<User>
-            {
-                new User { Id = 1, UserName = "user1" },
-                new User { Id = 2, UserName = "user2" }
-            };
+                {
+                    new User { Id = 1, UserName = "user1" },
+                    new User { Id = 2, UserName = "user2" }
+                };
             _mockUserService.Setup(s => s.Select()).Returns(users);
 
             // Act

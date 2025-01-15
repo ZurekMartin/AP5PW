@@ -6,6 +6,7 @@ using UTB.Zpravodajstvi.Domain.Entities;
 using UTB.Zpravodajstvi.Infrastructure.Database;
 using UTB.Zpravodajstvi.Tests.Database;
 using Xunit;
+using Microsoft.Extensions.Logging;
 
 namespace UTB.Zpravodajstvi.Tests.Controllers
 {
@@ -13,13 +14,15 @@ namespace UTB.Zpravodajstvi.Tests.Controllers
     {
         private readonly ArticleController _controller;
         private readonly Mock<IArticleAppService> _mockArticleService;
+        private readonly Mock<ILogger<ArticleController>> _mockLogger;
         private readonly ZpravodajstviDbContext _dbContext;
 
         public ArticleControllerTests()
         {
             _dbContext = TestDatabase.CreateDbContext();
             _mockArticleService = new Mock<IArticleAppService>();
-            _controller = new ArticleController(_mockArticleService.Object);
+            _mockLogger = new Mock<ILogger<ArticleController>>();
+            _controller = new ArticleController(_mockArticleService.Object, _mockLogger.Object);
         }
 
         [Fact]
