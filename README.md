@@ -1,4 +1,4 @@
-# AP5PW_SemestralniPrace
+# AP5PW
 Web application for news management and user interaction
 
 ## Functionality
