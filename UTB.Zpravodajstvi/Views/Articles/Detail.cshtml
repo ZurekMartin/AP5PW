@@ -33,14 +33,14 @@
                     <h1 class="h2 mb-4">@Model.Title</h1>
                     
                     <div class="d-flex align-items-center mb-4">
-                        <span class="badge bg-primary me-2">
+                        <span class="badge bg-primary me-2 rounded-pill">
                             <i class="fas fa-tag me-1"></i>@Model.Category?.Name
                         </span>
                         @if (Model.ArticleTags != null)
                         {
                             foreach (var articleTag in Model.ArticleTags)
                             {
-                                <span class="badge bg-info ms-1">
+                                <span class="badge bg-info ms-1 rounded-pill">
                                     <i class="fas fa-hashtag me-1"></i>@articleTag.Tag?.Name
                                 </span>
                             }

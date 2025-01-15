@@ -26,11 +26,6 @@
                             </div>
                         }
                         
-                        @if (ViewData.ModelState.IsValid == false)
-                        {
-                            <div asp-validation-summary="All" class="text-danger"></div>
-                        }
-                        
                         <div class="form-floating mb-3">
                             <input asp-for="Username" class="form-control" placeholder="Uživatelské jméno">
                             <label asp-for="Username">
@@ -48,10 +43,10 @@
                         </div>
 
                         <div class="d-grid gap-3">
-                            <button class="btn btn-primary" type="submit">
+                            <button class="btn btn-primary rounded-pill" type="submit">
                                 <i class="fas fa-sign-in-alt me-2"></i>Přihlásit se
                             </button>
-                            <a asp-action="Register" class="btn btn-outline-secondary">
+                            <a asp-action="Register" class="btn btn-outline-secondary rounded-pill">
                                 <i class="fas fa-user-plus me-2"></i>Ještě nejste registrováni?
                             </a>
                         </div>

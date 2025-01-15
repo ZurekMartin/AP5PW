@@ -32,23 +32,14 @@
                                 <p class="text-muted small mb-0">@user.Email</p>
                             </div>
                         </div>
-                        
-                        <div class="mb-3">
-                            <select class="form-select role-select" data-user-id="@user.Id">
-                                @foreach (var role in Enum.GetNames(typeof(Roles)))
-                                {
-                                    <option value="@role">@role</option>
-                                }
-                            </select>
-                        </div>
 
                         <div class="d-flex gap-2">
                             <a asp-action="Update" asp-route-id="@user.Id" 
-                               class="btn btn-outline-primary flex-grow-1">
+                               class="btn btn-outline-primary flex-grow-1 rounded-pill">
                                 <i class="fas fa-edit me-2"></i>Upravit
                             </a>
                             <a asp-action="Delete" asp-route-id="@user.Id" 
-                               class="btn btn-outline-danger flex-grow-1"
+                               class="btn btn-outline-danger flex-grow-1 rounded-pill"
                                onclick="return confirm('Opravdu chcete smazat tohoto uživatele?');">
                                 <i class="fas fa-trash me-2"></i>Smazat
                             </a>

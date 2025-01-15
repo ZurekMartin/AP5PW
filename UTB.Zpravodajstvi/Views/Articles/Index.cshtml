@@ -14,9 +14,6 @@
                             <h1 class="h3 mb-2">@ViewData["Title"]</h1>
                             <p class="mb-0 opacity-75">Přehled všech publikovaných článků</p>
                         </div>
-                        <button type="button" class="btn btn-light" id="searchToggle">
-                            <i class="fas fa-search me-2"></i>Vyhledat
-                        </button>
                     </div>
                 </div>
             </div>
@@ -24,39 +21,43 @@
     </div>
 
     <div class="row">
-        <!-- Filtrování -->
         <div class="col-12 col-lg-3 mb-4">
-            <div class="card border-0 shadow-sm">
+            <div class="card border-0 shadow-sm sticky-top" style="top: 5rem;">
+                <div class="card-header bg-primary text-white py-3">
+                    <h5 class="mb-0">
+                        <i class="fas fa-filter me-2"></i>Filtry
+                    </h5>
+                </div>
                 <div class="card-body">
-                    <div id="searchBox" class="mb-4" style="display: none;">
-                        <h5 class="mb-3">Vyhledávání</h5>
+                    <div id="searchBox" class="mb-4">
                         <div class="input-group">
-                            <input type="text" id="searchInput" class="form-control" 
+                            <input type="text" id="searchInput" class="form-control rounded-pill" 
                                    placeholder="Hledat článek...">
-                            <button class="btn btn-primary" type="button" id="searchButton">
+                            <button class="btn btn-primary rounded-pill ms-2" type="button" id="searchButton">
                                 <i class="fas fa-search"></i>
                             </button>
                         </div>
                     </div>
 
-                    <h5 class="mb-3">Kategorie</h5>
-                    <div class="d-flex flex-wrap gap-2 mb-4">
+                    <div class="d-flex flex-column gap-2">
+                        <button class="tag-button btn btn-outline-primary w-100 rounded-pill active" data-filter="all">
+                            <i class="fas fa-globe me-2"></i>Všechny články
+                        </button>
+                        <h6 class="mt-3 mb-2">Kategorie:</h6>
                         @foreach (var category in Model.Categories)
                         {
-                            <button class="btn btn-outline-primary category-filter" 
-                                    data-category="@category.Id">
-                                <i class="fas fa-tag me-1"></i>@category.Name
+                            <button class="tag-button btn btn-outline-primary w-100 rounded-pill" 
+                                    data-category="@category.Id" 
+                                    data-category-name="@category.Name">
+                                <i class="fas fa-tag me-2"></i>@category.Name
                             </button>
                         }
-                    </div>
-
-                    <h5 class="mb-3">Tagy</h5>
-                    <div class="d-flex flex-wrap gap-2">
+                        <h6 class="mt-3 mb-2">Tagy:</h6>
                         @foreach (var tag in Model.Tags)
                         {
-                            <button class="btn btn-outline-info tag-filter" 
+                            <button class="tag-button btn btn-outline-secondary w-100 rounded-pill" 
                                     data-tag="@tag.Id">
-                                <i class="fas fa-hashtag me-1"></i>@tag.Name
+                                <i class="fas fa-hashtag me-2"></i>@tag.Name
                             </button>
                         }
                     </div>
@@ -64,14 +65,13 @@
             </div>
         </div>
 
-        <!-- Seznam článků -->
         <div class="col-12 col-lg-9">
-            <div class="row g-4" id="articlesList">
+            <div class="row g-4">
                 @foreach (var article in Model.Articles)
                 {
-                    <div class="col-12 col-md-6 col-xl-4 article-item" 
-                         data-category="@article.CategoryID"
-                         data-tags="@string.Join(",", article.ArticleTags?.Select(at => at.TagID) ?? new List<int>())">
+                    <div class="col-12 col-md-6 col-xl-4 article-card" 
+                         data-category="@article.CategoryID" 
+                         data-tags="@string.Join(",", article.ArticleTags?.Select(tag => tag.TagID))">
                         <div class="card h-100 border-0 shadow-sm hover-lift">
                             <div class="position-relative">
                                 @if (!string.IsNullOrEmpty(article.ImageSrc))
@@ -95,14 +95,14 @@
                                 </p>
                                 <div class="mt-3">
                                     <div class="mb-3">
-                                        <span class="badge bg-primary">
+                                        <span class="badge bg-primary rounded-pill">
                                             <i class="fas fa-tag me-1"></i>@article.Category?.Name
                                         </span>
                                         @if (article.ArticleTags != null)
                                         {
                                             foreach (var articleTag in article.ArticleTags)
                                             {
-                                                <span class="badge bg-info">
+                                                <span class="badge bg-info rounded-pill">
                                                     <i class="fas fa-hashtag me-1"></i>@articleTag.Tag?.Name
                                                 </span>
                                             }
@@ -149,14 +149,23 @@
                 });
             }
 
+            // Tlačítko "Všechny články"
+            $('.filter-all').click(function() {
+                $('.category-filter, .tag-filter').removeClass('active');
+                $(this).addClass('active');
+                $('.article-item').show();
+            });
+
             // Filtrování podle kategorií
             $('.category-filter').click(function() {
+                $('.filter-all').removeClass('active');
                 $(this).toggleClass('active');
                 filterArticles();
             });
 
             // Filtrování podle tagů
             $('.tag-filter').click(function() {
+                $('.filter-all').removeClass('active');
                 $(this).toggleClass('active');
                 filterArticles();
             });
@@ -169,6 +178,12 @@
                 const selectedTags = $('.tag-filter.active').map(function() {
                     return $(this).data('tag');
                 }).get();
+
+                if (selectedCategories.length === 0 && selectedTags.length === 0) {
+                    $('.filter-all').addClass('active');
+                    $('.article-item').show();
+                    return;
+                }
 
                 $('.article-item').each(function() {
                     const articleCategory = $(this).data('category');

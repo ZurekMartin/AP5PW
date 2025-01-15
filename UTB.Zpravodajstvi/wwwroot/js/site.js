@@ -3,9 +3,44 @@
 
 // Write your JavaScript code.
 document.addEventListener('DOMContentLoaded', function () {
+    // Vyhledávání
+    const searchInput = document.getElementById('searchInput');
+    const searchButton = document.getElementById('searchButton');
+
+    function performSearch() {
+        const searchTerm = searchInput.value.toLowerCase();
+        const articles = document.querySelectorAll('.article-card');
+        
+        articles.forEach(article => {
+            const title = article.querySelector('.card-title').textContent.toLowerCase();
+            const description = article.querySelector('.card-text').textContent.toLowerCase();
+            
+            if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                article.style.display = '';
+            } else {
+                article.style.display = 'none';
+            }
+        });
+    }
+
+    if (searchInput && searchButton) {
+        searchButton.addEventListener('click', performSearch);
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+    }
+
+    // Původní kód pro filtrování
     function filterArticles(categoryId = null, tagId = null) {
         const articles = document.querySelectorAll('.article-card');
-        const mainArticle = document.querySelector('.featured-article'); 
+        const mainArticle = document.querySelector('.featured-article');
+
+        // Reset vyhledávání
+        if (searchInput) {
+            searchInput.value = '';
+        }
 
         if (mainArticle) {
             const mainArticleCategoryId = mainArticle.getAttribute('data-category');

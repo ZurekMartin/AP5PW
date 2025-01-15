@@ -72,7 +72,7 @@
                                         <div class="d-flex flex-wrap gap-2">
                                             @if (Model.Category != null)
                                             {
-                                                <span class="badge bg-primary">
+                                                <span class="badge bg-primary rounded-pill">
                                                     <i class="fas fa-tag me-1"></i>@Model.Category.Name
                                                 </span>
                                             }
@@ -80,7 +80,7 @@
                                             {
                                                 foreach (var tag in Model.ArticleTags)
                                                 {
-                                                    <span class="badge bg-info">
+                                                    <span class="badge bg-info rounded-pill">
                                                         <i class="fas fa-hashtag me-1"></i>@tag.Tag?.Name
                                                     </span>
                                                 }
@@ -111,10 +111,10 @@
                         </div>
 
                         <div class="d-flex gap-2 justify-content-end mt-4">
-                            <a asp-action="Select" class="btn btn-light">
+                            <a asp-action="Select" class="btn btn-light rounded-pill">
                                 <i class="fas fa-arrow-left me-2"></i>Zpět
                             </a>
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn btn-primary rounded-pill">
                                 <i class="fas fa-save me-2"></i>Uložit změny
                             </button>
                         </div>

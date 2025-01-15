@@ -60,13 +60,13 @@
                     </div>
                     <div class="card-body">
                         <div class="d-flex flex-column gap-2">
-                            <button class="tag-button btn btn-outline-primary w-100 active" data-filter="all">
+                            <button class="tag-button btn btn-outline-primary w-100 active rounded-pill" data-filter="all">
                                 <i class="fas fa-globe me-2"></i>Všechny články
                             </button>
                             <h6 class="mt-3 mb-2">Kategorie:</h6>
                             @foreach (var category in Model.Categories)
                             {
-                                <button class="tag-button btn btn-outline-primary w-100" 
+                                <button class="tag-button btn btn-outline-primary w-100 rounded-pill" 
                                         data-category="@category.Id" 
                                         data-category-name="@category.Name">
                                     <i class="fas fa-tag me-2"></i>@category.Name
@@ -75,7 +75,7 @@
                             <h6 class="mt-3 mb-2">Tagy:</h6>
                             @foreach (var tag in Model.Tags)
                             {
-                                <button class="tag-button btn btn-outline-secondary w-100" data-tag="@tag.Id">
+                                <button class="tag-button btn btn-outline-secondary w-100 rounded-pill" data-tag="@tag.Id">
                                     <i class="fas fa-hashtag me-2"></i>@tag.Name
                                 </button>
                             }
@@ -100,7 +100,7 @@
                                                      style="min-height: 400px;" alt="@mainArticle.Title">
                                             }
                                             <div class="position-absolute top-0 start-0 m-3">
-                                                <span class="badge bg-primary">
+                                                <span class="badge bg-primary rounded-pill">
                                                     <i class="fas fa-star me-1"></i>Hlavní článek
                                                 </span>
                                             </div>
@@ -150,7 +150,7 @@
                                             <div class="mb-3">
                                                 @foreach (var articleTag in article.ArticleTags)
                                                 {
-                                                    <span class="badge bg-light text-dark me-1">
+                                                    <span class="badge bg-light text-dark me-1 rounded-pill">
                                                         <i class="fas fa-hashtag me-1"></i>@articleTag.Tag?.Name
                                                     </span>
                                                 }

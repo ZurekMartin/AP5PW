@@ -17,12 +17,7 @@
                 </div>
 
                 <div class="card-body p-4">
-                    <form asp-action="Register" method="post">
-                        @if (ViewData.ModelState.IsValid == false)
-                        {
-                            <div asp-validation-summary="All" class="text-danger"></div>
-                        }
-                        
+                    <form asp-action="Register" method="post">                        
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <div class="form-floating">
@@ -85,10 +80,10 @@
                         </div>
 
                         <div class="d-grid gap-3 mt-4">
-                            <button class="btn btn-primary" type="submit">
+                            <button class="btn btn-primary rounded-pill" type="submit">
                                 <i class="fas fa-user-plus me-2"></i>Registrovat
                             </button>
-                            <a asp-action="Login" class="btn btn-outline-secondary">
+                            <a asp-action="Login" class="btn btn-outline-secondary rounded-pill">
                                 <i class="fas fa-sign-in-alt me-2"></i>Už máte účet?
                             </a>
                         </div>
